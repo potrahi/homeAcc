@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { spendingActions } from '../../store/spending';
 import { modalActions } from '../../store/modal';
+import './styles/SpendingForm.css';
 
 const SpendingForm: React.FC = () => {
     const dispatch = useDispatch();
@@ -27,6 +28,7 @@ const SpendingForm: React.FC = () => {
             return;
         }
 
+        console.log(formData);
         console.log(name, date, amount);
         dispatch(spendingActions.addSpend({ name, date, amount: parseFloat(amount) }));
         dispatch(modalActions.closeModal());

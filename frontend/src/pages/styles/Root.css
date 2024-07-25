@@ -10,7 +10,7 @@ nav {
 
 section {
     justify-content: space-between;
-    height: calc(100vh - 50px);
+    height: calc(100dvh - 50px);
     margin-top: 50px;
     padding: 0 10px 0 10px;
     overflow: hidden;

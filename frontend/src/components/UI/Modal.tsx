@@ -1,7 +1,8 @@
-import React, { ReactNode, useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, ReactNode } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { modalActions } from '../../store/modal';
 import { RootState } from '../../store';
+import { modalActions } from '../../store/modal';
+import './styles/Modal.css';
 
 type ModalProps = {
     children: ReactNode;
@@ -9,39 +10,31 @@ type ModalProps = {
 
 const Modal: React.FC<ModalProps> = ({ children }) => {
     const dispatch = useDispatch();
-    const show = useSelector((state: RootState) => state.modal.isOpen);
-    const modalRef = useRef<HTMLDialogElement>(null);
+    const isOpen = useSelector((state: RootState) => state.modal.isOpen);
 
-    const onClose = useCallback(() => {
+    const handleClose = useCallback(() => {
         dispatch(modalActions.closeModal());
     }, [dispatch]);
 
     useEffect(() => {
-        const modal = modalRef.current;
-        if (modal) {
-            modal.addEventListener('close', onClose);
-        }
-
-        if (show) {
-            modal?.showModal();
+        if (isOpen) {
+            document.body.style.overflow = 'hidden';
         } else {
-            modal?.close();
+            document.body.style.overflow = 'auto';
         }
+    }, [isOpen]);
 
-        return () => {
-            if (modal) {
-                modal.removeEventListener('close', onClose);
-            }
-        };
-    }, [onClose, show]);
+    if (!isOpen) {
+        return null;
+    }
 
     return (
-        <dialog ref={modalRef} onClose={onClose}>
-            <button id="close-modal" className="close-button" onClick={onClose}>
-                X
-            </button>
-            {children}
-        </dialog>
+        <div className="modal-overlay" onClick={handleClose}>
+            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                <button className="close-button" onClick={handleClose}>X</button>
+                {children}
+            </div>
+        </div>
     );
 };
 

@@ -1,16 +1,13 @@
-import { useDispatch } from "react-redux";
-import { modalActions } from "../store/modal";
 import RealTimeDate from "../components/RealTimeDate";
 import SpendingTable from "../components/Spending/SpendingTable";
-import "./Home.css";
 import Balance from "../components/Balance";
+import OpenModalButton from "../components/OpenModalButton";
+import SpendingForm from "../components/Spending/SpendingForm";
+import "./styles/Home.css";
 
 export default function Home() {
-    const dispatch = useDispatch();
 
-    const openModal = () => {
-        dispatch(modalActions.openModal());
-    };
+    console.log("test")
 
     return (
         <section id="home">
@@ -21,7 +18,7 @@ export default function Home() {
             <div id="spending-table-container">
                 <SpendingTable />
             </div>
-            <button id="modal-button" onClick={openModal}>Add transaction</button>
+            <OpenModalButton modalContent={<SpendingForm />} />
         </section>
     );
 }

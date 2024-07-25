@@ -6,8 +6,7 @@ type SpendingState = {
 };
 
 const initialState: SpendingState = {
-    spendings: [
-    ]
+    spendings: []
 };
 
 const spendingSlice = createSlice({

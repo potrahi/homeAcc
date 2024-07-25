@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux';
 import SpendingItem from './SpendingItem';
 import type { SpendingType } from '../../types/spending';
 import { RootState } from '../../store';
-import './SpendingTable.css';
+import './styles/SpendingTable.css';
 
 export default function SpendingTable() {
     const spendings = useSelector((state: RootState) => state.spending.spendings);
