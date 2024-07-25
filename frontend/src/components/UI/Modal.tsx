@@ -31,7 +31,7 @@ const Modal: React.FC<ModalProps> = ({ children }) => {
     return (
         <div className="modal-overlay" onClick={handleClose}>
             <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-                <button className="close-button" onClick={handleClose}>X</button>
+                <button className="close-button" onClick={handleClose}>&times;</button>
                 {children}
             </div>
         </div>

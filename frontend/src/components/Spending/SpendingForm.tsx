@@ -8,7 +8,7 @@ const SpendingForm: React.FC = () => {
     const dispatch = useDispatch();
     const [formData, setFormData] = useState({
         name: '',
-        date: '',
+        date: new Date().toISOString().slice(0, 16),
         amount: ''
     });
 
@@ -29,30 +29,47 @@ const SpendingForm: React.FC = () => {
         }
 
         console.log(formData);
-        console.log(name, date, amount);
         dispatch(spendingActions.addSpend({ name, date, amount: parseFloat(amount) }));
         dispatch(modalActions.closeModal());
         setFormData({ name: '', date: '', amount: '' });
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <label>
-                Who:
-                <input type="text" name='name' value={formData.name} onChange={handleChange} />
-            </label>
-            <br />
-            <label>
-                Date:
-                <input type="datetime-local" name='date' value={formData.date} onChange={handleChange} />
-            </label>
-            <br />
-            <label>
-                Amount:
-                <input type="text" name='amount' value={formData.amount} onChange={handleChange} />
-            </label>
-            <br />
-            <button type="submit">Submit</button>
+        <form onSubmit={handleSubmit} className="spending-form">
+            <div className="form-group">
+                <label htmlFor="name">Who:</label>
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    className="form-control"
+                />
+            </div>
+            <div className="form-group">
+                <label htmlFor="date">Date:</label>
+                <input
+                    type="datetime-local"
+                    id="date"
+                    name="date"
+                    value={formData.date}
+                    onChange={handleChange}
+                    className="form-control"
+                />
+            </div>
+            <div className="form-group">
+                <label htmlFor="amount">Amount:</label>
+                <input
+                    type="text"
+                    id="amount"
+                    name="amount"
+                    value={formData.amount}
+                    onChange={handleChange}
+                    className="form-control"
+                />
+            </div>
+            <button type="submit" className="btn-submit">Submit</button>
         </form>
     );
 };
