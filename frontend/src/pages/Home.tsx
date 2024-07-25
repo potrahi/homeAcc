@@ -2,6 +2,7 @@ import { useDispatch } from "react-redux";
 import { modalActions } from "../store/modal";
 import RealTimeDate from "../components/RealTimeDate";
 import SpendingTable from "../components/Spending/SpendingTable";
+import "./Home.css";
 
 export default function Home() {
     const dispatch = useDispatch();
@@ -11,13 +12,15 @@ export default function Home() {
     };
 
     return (
-        <section>
+        <section id="home">
             <ul>
                 <li>Date: {<RealTimeDate />}</li>
                 <li>Balance:</li>
             </ul>
-            <SpendingTable />
-            <button id="modal" onClick={openModal}>Add transaction</button>
+            <div id="spending-table-container">
+                <SpendingTable />
+            </div>
+            <button id="modal-button" onClick={openModal}>Add transaction</button>
         </section>
     );
 }

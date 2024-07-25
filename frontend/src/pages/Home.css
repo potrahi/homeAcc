@@ -1,0 +1,20 @@
+#home {
+    display: flex;
+    flex-direction: column;
+}
+
+ul {
+    flex: 0 0 auto;
+}
+
+#spending-table-container {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    width: 100%;
+}
+
+#modal-button {
+    flex: 0 0 auto;
+    align-self: stretch;
+    margin: 5px 0 5px 0;
+}
