@@ -2,6 +2,7 @@ import { useSelector } from 'react-redux';
 import SpendingItem from './SpendingItem';
 import type { SpendingType } from '../../types/spending';
 import { RootState } from '../../store';
+import './SpendingTable.css';
 
 export default function SpendingTable() {
     const spendings = useSelector((state: RootState) => state.spending.spendings);
@@ -10,6 +11,7 @@ export default function SpendingTable() {
         <table>
             <thead>
                 <tr>
+                    <th>#</th>
                     <th>Who</th>
                     <th>Amount</th>
                     <th>When</th>

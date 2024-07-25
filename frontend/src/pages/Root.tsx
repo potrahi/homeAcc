@@ -7,7 +7,7 @@ import './Root.css';
 export default function Root() {
 
     const show = useSelector((state: RootState) => state.modal.isOpen);
-    console.log(show);
+
     return (
         <>
             <nav>
