@@ -1,35 +1,42 @@
-import React, { ReactNode, useEffect, useRef } from 'react';
+import React, { ReactNode, useCallback, useEffect, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { modalActions } from '../../store/modal';
+import { RootState } from '../../store';
 
-interface ModalProps {
-    isOpen: boolean;
-    onClose: () => void;
+type ModalProps = {
     children: ReactNode;
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
-    const dialog = useRef<HTMLDialogElement>(null);
+const Modal: React.FC<ModalProps> = ({ children }) => {
+    const dispatch = useDispatch();
+    const show = useSelector((state: RootState) => state.modal.isOpen);
+    const modalRef = useRef<HTMLDialogElement>(null);
 
+    const onClose = useCallback(() => {
+        dispatch(modalActions.closeModal());
+    }, [dispatch]);
 
     useEffect(() => {
-        const modal = dialog.current;
-
-        if (!modal) {
-            return;
+        const modal = modalRef.current;
+        if (modal) {
+            modal.addEventListener('close', onClose);
         }
 
-        if (isOpen) {
-            modal.showModal();
+        if (show) {
+            modal?.showModal();
+        } else {
+            modal?.close();
         }
 
         return () => {
-            console.log('closing');
-            modal.close();
+            if (modal) {
+                modal.removeEventListener('close', onClose);
+            }
         };
-    }, [isOpen]);
-
+    }, [onClose, show]);
 
     return (
-        <dialog ref={dialog} onClose={onClose}>
+        <dialog ref={modalRef} onClose={onClose}>
             <button id="close-modal" className="close-button" onClick={onClose}>
                 X
             </button>
