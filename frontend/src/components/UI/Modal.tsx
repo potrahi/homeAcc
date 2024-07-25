@@ -1,5 +1,4 @@
 import React, { ReactNode, useEffect, useRef } from 'react';
-import { createPortal } from 'react-dom';
 
 interface ModalProps {
     isOpen: boolean;
@@ -28,14 +27,14 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
         };
     }, [isOpen]);
 
-    return createPortal(
+
+    return (
         <dialog ref={dialog} onClose={onClose}>
             <button id="close-modal" className="close-button" onClick={onClose}>
                 X
             </button>
             {children}
-        </dialog>,
-        document.getElementById('modal')!
+        </dialog>
     );
 };
 
