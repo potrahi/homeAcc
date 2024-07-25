@@ -2,7 +2,6 @@ import RealTimeDate from "../components/RealTimeDate";
 import SpendingTable from "../components/Spending/SpendingTable";
 import Balance from "../components/Balance";
 import OpenModalButton from "../components/OpenModalButton";
-import SpendingForm from "../components/Spending/SpendingForm";
 import "./styles/Home.css";
 
 export default function Home() {
@@ -18,7 +17,7 @@ export default function Home() {
             <div id="spending-table-container">
                 <SpendingTable />
             </div>
-            <OpenModalButton modalContent={<SpendingForm />} />
+            <OpenModalButton contentId="SpendingForm" />
         </section>
     );
 }

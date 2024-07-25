@@ -1,24 +1,24 @@
 import React, { useCallback } from "react";
 import { useDispatch } from "react-redux";
-import { ModalContextType } from "../types/types";
-import { useOutletContext } from "react-router-dom";
+import { OpenModalButtonProps } from "../types/types";
 import { modalActions } from "../store/modal";
 
-type OpenModalButtonProps = {
-    modalContent: React.ReactNode;
-}
-
-const OpenModalButton: React.FC<OpenModalButtonProps> = ({ modalContent }) => {
+const OpenModalButton: React.FC<OpenModalButtonProps> = ({ contentId, children }) => {
     const dispatch = useDispatch();
-    const { setModalContent } = useOutletContext<ModalContextType>();
 
     const openModal = useCallback(() => {
-        setModalContent(modalContent);
-        dispatch(modalActions.openModal());
-    }, [dispatch, setModalContent, modalContent]);
+        if (contentId) {
+            dispatch(modalActions.setModalContent(contentId));
+            dispatch(modalActions.openModal());
+        } else {
+            console.error("No context found");
+        }
+    }, [dispatch, contentId]);
 
     return (
-        <button id="modal-button" onClick={openModal}>Add transaction</button>
+        <div onClick={openModal}>
+            {children ? children : <button id="modal-button">Add transaction</button>}
+        </div>
     )
 }
 

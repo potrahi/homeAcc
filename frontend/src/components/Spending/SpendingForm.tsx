@@ -34,6 +34,8 @@ const SpendingForm: React.FC = () => {
         setFormData({ name: '', date: '', amount: '' });
     };
 
+    console.log("test")
+
     return (
         <form onSubmit={handleSubmit} className="spending-form">
             <div className="form-group">
