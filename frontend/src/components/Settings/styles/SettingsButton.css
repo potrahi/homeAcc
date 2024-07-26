@@ -1,7 +1,3 @@
-button.settings-button {
-  background-color: transparent;
-}
-
 .settings-button {
   padding-right: 30px;
   width: 30px;
@@ -9,10 +5,37 @@ button.settings-button {
   display: flex;
   justify-content: center;
   align-items: center;
+  background: none;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.settings-button:hover {
+  background-color: none;
+}
+
+.settings-button:focus,
+.settings-button:focus-visible {
+  outline: none;
 }
 
 .gear-icon {
   width: 24px;
   height: 24px;
   fill: black;
+  transition: transform 0.5s ease;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.settings-button.clicked .gear-icon {
+  animation: rotate 1s linear infinite;
 }
