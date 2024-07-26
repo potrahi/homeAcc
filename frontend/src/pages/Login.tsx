@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { authActions } from '../store/auth';
-import './styles/Login.css';
+import './/Login.css';
 
 const Login: React.FC = () => {
     const [username, setUsername] = useState<string>('');

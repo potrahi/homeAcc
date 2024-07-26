@@ -5,7 +5,7 @@ import OpenModalButton from "../components/OpenModalButton";
 import SettingsButton from "../components/Settings/SettingsButton";
 import ModalComponent from "../components/ModalComponent";
 import SpendingTable from "../components/Spending/SpendingTable";
-import "./styles/Home.css";
+import "./Home.css";
 
 export default function Home() {
 

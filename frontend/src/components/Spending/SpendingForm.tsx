@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { spendingActions } from '../../store/spending';
 import { modalActions } from '../../store/modal';
-import './styles/SpendingForm.css';
+import './SpendingForm.css';
 import useInput from '../../hooks/useInput';
 
 const SpendingForm: React.FC = () => {

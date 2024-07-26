@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import OpenModalButton from '../OpenModalButton';
-import './styles/SettingsButton.css';
+import './SettingsButton.css';
 import gear from '../../assets/gear-svgrepo-com.svg';
 
 const SettingsButton: React.FC = () => {
