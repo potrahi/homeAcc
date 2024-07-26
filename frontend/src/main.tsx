@@ -1,12 +1,14 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import './index.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import Root from './pages/Root'
-import Home from './pages/Home'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Provider } from 'react-redux'
+import ProtectedRoute from './ProtectedRoute'
+import Root from './pages/Root'
+import Home from './pages/Home'
+import Login from './pages/Login'
 import store from './store'
+import './index.css'
 
 const router = createBrowserRouter([
   {
@@ -15,7 +17,13 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Home />
+        element: <ProtectedRoute element={
+          <Home />
+        } />
+      },
+      {
+        path: 'login',
+        element: <Login />
       }
     ]
   }

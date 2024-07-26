@@ -4,7 +4,7 @@ import { OpenModalButtonProps } from "../types/types";
 import { modalActions } from "../store/modal";
 import "./OpenModalButton.css";
 
-const OpenModalButton: React.FC<OpenModalButtonProps> = ({ contentId, children }) => {
+const OpenModalButton: React.FC<OpenModalButtonProps> = ({ contentId, children, className }) => {
     const dispatch = useDispatch();
 
     const openModal = useCallback(() => {
@@ -17,7 +17,7 @@ const OpenModalButton: React.FC<OpenModalButtonProps> = ({ contentId, children }
     }, [dispatch, contentId]);
 
     return (
-        <div className="modal-button-container" onClick={openModal}>
+        <div className={className ? className : "modal-button-container"} onClick={openModal}>
             {children}
         </div>
     )

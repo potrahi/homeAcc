@@ -23,6 +23,12 @@ body {
   background-color: inherit;
 }
 
+#root {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+}
+
 a {
   font-weight: 500;
   color: #646cff;

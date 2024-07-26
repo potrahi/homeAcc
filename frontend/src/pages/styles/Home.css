@@ -1,34 +1,85 @@
-#home {
-    display: flex;
-    flex-direction: column;
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #1a1a1a;;
+  color: #fff;
 }
 
-ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    gap: 20px;
+.nav-link {
+  color: #fff;
+  text-decoration: none;
+  font-size: 18px;
 }
 
-li {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 1.4em;
-    font-size: 1.2em;
-    font-weight: 500;
-    color: #333;
+.settings-button {
+  font-size: 18px;
 }
 
-#spending-table-container {
-    flex: 1 1 auto;
-    overflow-y: auto;
-    width: 100%;
+.main-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  padding: 10px;
+  justify-content: space-between;
+  overflow: hidden;
 }
 
-#modal-button {
-    flex: 0 0 auto;
-    align-self: stretch;
-    margin: 5px 0 5px 0;
-    transition: background-color 0.3s ease;
+.info-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.real-time-container {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+  background-color: #e0ffe0;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  text-align: center;
+}
+
+.balance-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #e0ffe0;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  text-align: center;
+}
+
+.table-container {
+  width: 100%;
+  margin-bottom: 10px;
+  flex: 1;
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.table-container::-webkit-scrollbar {
+  display: none;
+}
+
+.add-transaction-button {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.add-transaction-button button {
+  width: 100%;
+  color: #fff;
 }
