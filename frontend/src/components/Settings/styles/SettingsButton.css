@@ -12,7 +12,7 @@
 }
 
 .settings-button:hover {
-  background-color: none;
+  background-color: transparent;
 }
 
 .settings-button:focus,
