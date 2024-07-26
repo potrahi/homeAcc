@@ -14,7 +14,7 @@ const ModalComponent = () => {
     const contentId = useSelector((state: RootState) => state.modal.contentId);
 
     if (isOpen && contentId !== null) {
-        return <Modal> {MODAL_CONTENT[contentId]}</Modal>
+        return <Modal>{MODAL_CONTENT[contentId]}</Modal>
     }
 }
 

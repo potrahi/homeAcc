@@ -1,28 +1,18 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store';
 import { modalActions } from '../../store/modal';
 import { balanceActions } from '../../store/balance';
+import useInput from '../../hooks/useInput';
 
 const SettingsForm: React.FC = () => {
     const dispatch = useDispatch();
-    const balance = useSelector((state: RootState) => state.balance.balance);
+    const current_balance = useSelector((state: RootState) => state.balance.balance);
 
-    const [formData, setFormData] = useState({
-        balance: balance.toString(),
-    });
-
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = event.target;
-        setFormData({
-            ...formData,
-            [name]: value
-        });
-    };
+    const [balance, handleBalanceChange, setBalance] = useInput(current_balance.toString());
 
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-        const { balance } = formData;
         const parseBalance = parseFloat(balance);
 
         if (isNaN(parseBalance)) {
@@ -30,13 +20,10 @@ const SettingsForm: React.FC = () => {
             return;
         }
 
-        console.log(formData);
         dispatch(balanceActions.setBalance(parseBalance));
         dispatch(modalActions.closeModal());
+        setBalance('');
     };
-
-    console.log("test")
-
 
     return (
         <form onSubmit={handleSubmit} className="spending-form">
@@ -46,8 +33,8 @@ const SettingsForm: React.FC = () => {
                     type="text"
                     id="balance"
                     name="balance"
-                    value={formData.balance}
-                    onChange={handleChange}
+                    value={balance}
+                    onChange={handleBalanceChange}
                     className="form-control"
                 />
             </div>

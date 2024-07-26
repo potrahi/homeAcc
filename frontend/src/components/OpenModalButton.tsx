@@ -2,6 +2,7 @@ import React, { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { OpenModalButtonProps } from "../types/types";
 import { modalActions } from "../store/modal";
+import "./OpenModalButton.css";
 
 const OpenModalButton: React.FC<OpenModalButtonProps> = ({ contentId, children }) => {
     const dispatch = useDispatch();
@@ -16,7 +17,7 @@ const OpenModalButton: React.FC<OpenModalButtonProps> = ({ contentId, children }
     }, [dispatch, contentId]);
 
     return (
-        <div onClick={openModal}>
+        <div className="modal-button-container" onClick={openModal}>
             {children}
         </div>
     )

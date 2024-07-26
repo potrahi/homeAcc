@@ -1,40 +1,31 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import { spendingActions } from '../../store/spending';
 import { modalActions } from '../../store/modal';
 import './styles/SpendingForm.css';
+import useInput from '../../hooks/useInput';
 
 const SpendingForm: React.FC = () => {
     const dispatch = useDispatch();
-    const [formData, setFormData] = useState({
-        name: '',
-        date: new Date().toISOString().slice(0, 16),
-        amount: ''
-    });
-
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = event.target;
-        setFormData({
-            ...formData,
-            [name]: value
-        });
-    };
+    const [name, handleNameChange, setName] = useInput('');
+    const [date, handleDateChange, setDate] = useInput(new Date().toISOString().slice(0, 16));
+    const [amount, handleAmountChange, setAmount] = useInput('');
 
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-        const { name, date, amount } = formData;
 
         if (!name || !date || !amount) {
             return;
         }
 
-        console.log(formData);
+        console.log(name, date, amount);
+
         dispatch(spendingActions.addSpend({ name, date, amount: parseFloat(amount) }));
         dispatch(modalActions.closeModal());
-        setFormData({ name: '', date: '', amount: '' });
+        setName('');
+        setDate(new Date().toISOString().slice(0, 16));
+        setAmount('');
     };
-
-    console.log("test")
 
     return (
         <form onSubmit={handleSubmit} className="spending-form">
@@ -44,8 +35,8 @@ const SpendingForm: React.FC = () => {
                     type="text"
                     id="name"
                     name="name"
-                    value={formData.name}
-                    onChange={handleChange}
+                    value={name}
+                    onChange={handleNameChange}
                     className="form-control"
                 />
             </div>
@@ -55,8 +46,8 @@ const SpendingForm: React.FC = () => {
                     type="datetime-local"
                     id="date"
                     name="date"
-                    value={formData.date}
-                    onChange={handleChange}
+                    value={date}
+                    onChange={handleDateChange}
                     className="form-control"
                 />
             </div>
@@ -66,8 +57,8 @@ const SpendingForm: React.FC = () => {
                     type="text"
                     id="amount"
                     name="amount"
-                    value={formData.amount}
-                    onChange={handleChange}
+                    value={amount}
+                    onChange={handleAmountChange}
                     className="form-control"
                 />
             </div>
