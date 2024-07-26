@@ -17,7 +17,9 @@ export default function Home() {
             <div id="spending-table-container">
                 <SpendingTable />
             </div>
-            <OpenModalButton contentId="SpendingForm" />
+            <OpenModalButton contentId="SpendingForm">
+                <button id="modal-button">Add transaction</button>
+            </OpenModalButton>
         </section>
     );
 }

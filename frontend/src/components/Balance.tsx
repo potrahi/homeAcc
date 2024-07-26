@@ -5,7 +5,10 @@ export default function Balance() {
     const balance = useSelector((state: RootState) => state.balance.balance);
     const spendings = useSelector((state: RootState) => state.spending.spendings);
 
-    const total = spendings.reduce((acc, item) => acc + item.amount, 0);
+    const total = spendings.reduce((acc, item) => {
+        const amount = parseFloat(item.amount.toString());
+        return acc + (isNaN(amount) ? 0 : amount)
+    }, 0)
 
     const currentBalance = balance - total;
 
@@ -14,7 +17,7 @@ export default function Balance() {
     return (
         <span>Balance:
             <span style={{ color: balanceColor }}>
-                {currentBalance}
+                {isNaN(currentBalance) ? "Invalid Balance" : currentBalance.toString()}
             </span>
         </span>
     );

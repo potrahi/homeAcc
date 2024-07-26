@@ -17,7 +17,7 @@ const OpenModalButton: React.FC<OpenModalButtonProps> = ({ contentId, children }
 
     return (
         <div onClick={openModal}>
-            {children ? children : <button id="modal-button">Add transaction</button>}
+            {children}
         </div>
     )
 }

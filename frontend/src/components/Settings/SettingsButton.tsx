@@ -1,7 +1,7 @@
 import React from 'react';
-import OpenModalButton from './OpenModalButton';
+import OpenModalButton from '../OpenModalButton';
 import './styles/SettingsButton.css';
-import gear from '../assets/gear-svgrepo-com.svg';
+import gear from '../../assets/gear-svgrepo-com.svg';
 
 const SettingsButton: React.FC = () => {
 

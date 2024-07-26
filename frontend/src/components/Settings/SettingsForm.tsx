@@ -23,9 +23,15 @@ const SettingsForm: React.FC = () => {
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
         const { balance } = formData;
+        const parseBalance = parseFloat(balance);
+
+        if (isNaN(parseBalance)) {
+            console.log("Invalid balance");
+            return;
+        }
 
         console.log(formData);
-        dispatch(balanceActions.setBalance({ balance: parseFloat(balance) }));
+        dispatch(balanceActions.setBalance(parseBalance));
         dispatch(modalActions.closeModal());
     };
 
@@ -35,7 +41,7 @@ const SettingsForm: React.FC = () => {
     return (
         <form onSubmit={handleSubmit} className="spending-form">
             <div className="form-group">
-                <label htmlFor="balance">Who:</label>
+                <label htmlFor="balance">Balance:</label>
                 <input
                     type="text"
                     id="balance"

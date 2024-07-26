@@ -1,7 +1,7 @@
 import { Link, Outlet } from "react-router-dom";
-import './styles/Root.css';
-import SettingsButton from "../components/OpenSettingsButton";
 import ModalComponent from "../components/ModalComponent";
+import SettingsButton from "../components/Settings/SettingsButton";
+import './styles/Root.css';
 
 export default function Root() {
     console.log("test")
