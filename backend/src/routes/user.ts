@@ -1,4 +1,5 @@
-import { Router } from "express";
+import { Router, Request, Response } from "express";
+import { Pool } from "pg";
 import {
   getAllUsers,
   getUserById,
@@ -9,14 +10,26 @@ import {
   getUserCount,
 } from "../controllers/userController";
 
-const router = Router();
+export default (pool: Pool) => {
+  const router = Router();
 
-router.get("/", getAllUsers);
-router.get("/:id", getUserById);
-router.post("/", createUser);
-router.put("/:id", updateUser);
-router.delete("/:id", deleteUser);
-router.delete("/", deleteAllUsers);
-router.get("/count", getUserCount);
+  router.get("/", (req: Request, res: Response) => getAllUsers(req, res, pool));
+  router.get("/:id", (req: Request, res: Response) =>
+    getUserById(req, res, pool)
+  );
+  router.post("/", (req: Request, res: Response) => createUser(req, res, pool));
+  router.put("/:id", (req: Request, res: Response) =>
+    updateUser(req, res, pool)
+  );
+  router.delete("/:id", (req: Request, res: Response) =>
+    deleteUser(req, res, pool)
+  );
+  router.delete("/", (req: Request, res: Response) =>
+    deleteAllUsers(req, res, pool)
+  );
+  router.get("/count", (req: Request, res: Response) =>
+    getUserCount(req, res, pool)
+  );
 
-export default router;
+  return router;
+};

@@ -2,17 +2,8 @@ import { Request, Response } from "express";
 import { Pool } from "pg";
 import { UserService } from "../services/userService";
 
-const pool: Pool = new Pool({
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST,
-  database: process.env.DB_DATABASE,
-  password: process.env.DB_PASSWORD,
-  port: parseInt(process.env.DB_PORT as string),
-});
-
-const userService = new UserService(pool);
-
-export const getAllUsers = async (req: Request, res: Response) => {
+export const getAllUsers = async (req: Request, res: Response, pool: Pool) => {
+  const userService = new UserService(pool);
   try {
     const users = await userService.getAllUsers();
     res.json(users);
@@ -21,7 +12,8 @@ export const getAllUsers = async (req: Request, res: Response) => {
   }
 };
 
-export const getUserById = async (req: Request, res: Response) => {
+export const getUserById = async (req: Request, res: Response, pool: Pool) => {
+  const userService = new UserService(pool);
   try {
     const user = await userService.getUserById(parseInt(req.params.id));
     res.json(user);
@@ -30,8 +22,9 @@ export const getUserById = async (req: Request, res: Response) => {
   }
 };
 
-export const createUser = async (req: Request, res: Response) => {
+export const createUser = async (req: Request, res: Response, pool: Pool) => {
   const { name, role } = req.body;
+  const userService = new UserService(pool);
   try {
     const user = await userService.createUser(name, role);
     res.json(user);
@@ -40,8 +33,9 @@ export const createUser = async (req: Request, res: Response) => {
   }
 };
 
-export const updateUser = async (req: Request, res: Response) => {
+export const updateUser = async (req: Request, res: Response, pool: Pool) => {
   const { name, role } = req.body;
+  const userService = new UserService(pool);
   try {
     const user = await userService.updateUser(
       parseInt(req.params.id),
@@ -54,7 +48,8 @@ export const updateUser = async (req: Request, res: Response) => {
   }
 };
 
-export const deleteUser = async (req: Request, res: Response) => {
+export const deleteUser = async (req: Request, res: Response, pool: Pool) => {
+  const userService = new UserService(pool);
   try {
     const user = await userService.deleteUser(parseInt(req.params.id));
     res.json(user);
@@ -63,7 +58,12 @@ export const deleteUser = async (req: Request, res: Response) => {
   }
 };
 
-export const deleteAllUsers = async (req: Request, res: Response) => {
+export const deleteAllUsers = async (
+  req: Request,
+  res: Response,
+  pool: Pool
+) => {
+  const userService = new UserService(pool);
   try {
     const users = await userService.deleteAllUsers();
     res.json(users);
@@ -72,7 +72,8 @@ export const deleteAllUsers = async (req: Request, res: Response) => {
   }
 };
 
-export const getUserCount = async (req: Request, res: Response) => {
+export const getUserCount = async (req: Request, res: Response, pool: Pool) => {
+  const userService = new UserService(pool);
   try {
     const count = await userService.getUserCount();
     res.json(count);
