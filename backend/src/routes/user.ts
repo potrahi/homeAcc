@@ -7,7 +7,6 @@ import {
   updateUser,
   deleteUser,
   deleteAllUsers,
-  getUserCount,
 } from "../controllers/userController";
 
 export default (pool: Pool) => {
@@ -27,9 +26,5 @@ export default (pool: Pool) => {
   router.delete("/", (req: Request, res: Response) =>
     deleteAllUsers(req, res, pool)
   );
-  router.get("/count", (req: Request, res: Response) =>
-    getUserCount(req, res, pool)
-  );
-
   return router;
 };

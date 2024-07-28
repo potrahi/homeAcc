@@ -77,16 +77,4 @@ export class UserService {
       client.release();
     }
   }
-
-  async getUserCount(): Promise<number> {
-    const client = await this.pool.connect();
-    try {
-      const { rows } = await client.query<{ count: number }>(
-        "SELECT COUNT(*) FROM users"
-      );
-      return rows[0].count;
-    } finally {
-      client.release();
-    }
-  }
 }

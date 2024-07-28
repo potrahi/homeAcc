@@ -71,13 +71,3 @@ export const deleteAllUsers = async (
     res.status(500).json({ error: (error as any).message });
   }
 };
-
-export const getUserCount = async (req: Request, res: Response, pool: Pool) => {
-  const userService = new UserService(pool);
-  try {
-    const count = await userService.getUserCount();
-    res.json(count);
-  } catch (error) {
-    res.status(500).json({ error: (error as any).message });
-  }
-};
