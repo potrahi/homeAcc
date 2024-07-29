@@ -2,7 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import { Pool } from "pg";
 import userRoutes from "./routes/user";
-import balanceRoutes from "./routes/balance";
+import settingRoutes from "./routes/settings";
 import spendingRoutes from "./routes/spending";
 
 dotenv.config();
@@ -21,7 +21,7 @@ const pool: Pool = new Pool({
 app.use(express.json());
 
 app.use("/users", userRoutes(pool));
-app.use("/balances", balanceRoutes(pool));
+app.use("/settings", settingRoutes(pool));
 app.use("/spending", spendingRoutes(pool));
 
 pool.connect((err, client, release) => {
