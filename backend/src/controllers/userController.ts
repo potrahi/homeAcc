@@ -23,10 +23,10 @@ export const getUserById = async (req: Request, res: Response, pool: Pool) => {
 };
 
 export const createUser = async (req: Request, res: Response, pool: Pool) => {
-  const { name, role } = req.body;
+  const { name } = req.body;
   const userService = new UserService(pool);
   try {
-    const user = await userService.createUser(name, role);
+    const user = await userService.createUser({ name });
     res.json(user);
   } catch (error) {
     res.status(500).json({ error: (error as any).message });
@@ -34,14 +34,12 @@ export const createUser = async (req: Request, res: Response, pool: Pool) => {
 };
 
 export const updateUser = async (req: Request, res: Response, pool: Pool) => {
-  const { name, role } = req.body;
+  const { name } = req.body;
   const userService = new UserService(pool);
   try {
-    const user = await userService.updateUser(
-      parseInt(req.params.id),
+    const user = await userService.updateUser(parseInt(req.params.id), {
       name,
-      role
-    );
+    });
     res.json(user);
   } catch (error) {
     res.status(500).json({ error: (error as any).message });
