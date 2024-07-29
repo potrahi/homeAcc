@@ -1,5 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
+import cors from "cors";
 import { Pool } from "pg";
 import userRoutes from "./routes/user";
 import balanceRoutes from "./routes/balance";
@@ -17,6 +18,8 @@ const pool: Pool = new Pool({
   password: process.env.DB_PASSWORD,
   port: parseInt(process.env.DB_PORT as string),
 });
+
+app.use(cors());
 
 app.use(express.json());
 
