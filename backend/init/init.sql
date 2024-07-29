@@ -1,8 +1,7 @@
 -- Create the user table
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL UNIQUE,
-    role VARCHAR(50) NOT NULL
+    name VARCHAR(100) NOT NULL
 );
 -- Create the spendings table
 CREATE TABLE spendings (

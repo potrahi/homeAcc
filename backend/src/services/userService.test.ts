@@ -31,11 +31,7 @@ describe("UserService", () => {
   it("should return all users", async () => {
     const users: User[] = [
       {
-        id: 1,
         name: "John Doe",
-        role: "admin",
-        created_at: new Date(),
-        updated_at: new Date(),
       },
     ];
     (client.query as jest.Mock).mockResolvedValue({ rows: users });
@@ -49,7 +45,7 @@ describe("UserService", () => {
   });
 
   it("should get user by id", async () => {
-    const user = { id: 1, name: "John", role: "admin" };
+    const user = { name: "John" };
     (client.query as jest.Mock).mockResolvedValue({ rows: [user] });
 
     const result = await userService.getUserById(1);
@@ -63,20 +59,14 @@ describe("UserService", () => {
   });
 
   it("should create a new user", async () => {
-    const newUser = { name: "John Doe", role: "admin" };
-    const createdUser: User = {
-      ...newUser,
-      id: 1,
-      created_at: new Date(),
-      updated_at: new Date(),
-    };
+    const createdUser: User = { name: "John Doe" };
     (client.query as jest.Mock).mockResolvedValue({ rows: [createdUser] });
 
-    const result = await userService.createUser(newUser.name, newUser.role);
+    const result = await userService.createUser(createdUser);
 
     expect(client.query).toHaveBeenCalledWith(
-      "INSERT INTO users (name, role) VALUES ($1, $2) RETURNING *",
-      [newUser.name, newUser.role]
+      "INSERT INTO users (name) VALUES ($1) RETURNING *",
+      [createdUser.name]
     );
     expect(result).toEqual(createdUser);
     expect(client.release).toHaveBeenCalled();
@@ -84,33 +74,21 @@ describe("UserService", () => {
   });
 
   it("should update a user", async () => {
-    const newUser = { name: "John Doe", role: "admin" };
-    const createdUser: User = {
-      ...newUser,
-      id: 1,
-      created_at: new Date(),
-      updated_at: new Date(),
-    };
+    const createdUser: User = { name: "John Doe" };
     (client.query as jest.Mock).mockResolvedValue({ rows: [createdUser] });
 
-    const user = await userService.updateUser(1, "John", "admin");
+    const user = await userService.updateUser(1, { name: "John" });
 
     expect(client.query).toHaveBeenCalledWith(
-      "UPDATE users SET name = $1, role = $2 WHERE id = $3 RETURNING *",
-      ["John", "admin", 1]
+      "UPDATE users SET name = $1 WHERE id = $2 RETURNING *",
+      ["John", 1]
     );
     expect(user).toEqual(createdUser);
     expect(client.release).toHaveBeenCalled();
   });
 
   it("should delete a user", async () => {
-    const newUser = { name: "John Doe", role: "admin" };
-    const createdUser: User = {
-      ...newUser,
-      id: 1,
-      created_at: new Date(),
-      updated_at: new Date(),
-    };
+    const createdUser: User = { name: "John Doe" };
     (client.query as jest.Mock).mockResolvedValue({ rows: [createdUser] });
 
     const user = await userService.deleteUser(1);
@@ -124,13 +102,7 @@ describe("UserService", () => {
   });
 
   it("should delete all users", async () => {
-    const newUser = { name: "John Doe", role: "admin" };
-    const createdUser: User = {
-      ...newUser,
-      id: 1,
-      created_at: new Date(),
-      updated_at: new Date(),
-    };
+    const createdUser: User = { name: "John Doe" };
     (client.query as jest.Mock).mockResolvedValue({ rows: createdUser });
 
     const users = await userService.deleteAllUsers();
