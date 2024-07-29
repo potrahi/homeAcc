@@ -27,12 +27,12 @@ export class UserService {
     }
   }
 
-  async createUser(name: string, role: string): Promise<User> {
+  async createUser(user: User): Promise<User> {
     const client = await this.pool.connect();
     try {
       const { rows } = await client.query<User>(
-        "INSERT INTO users (name, role) VALUES ($1, $2) RETURNING *",
-        [name, role]
+        "INSERT INTO users (name) VALUES ($1) RETURNING *",
+        [user.name]
       );
       return rows[0];
     } finally {
@@ -40,12 +40,12 @@ export class UserService {
     }
   }
 
-  async updateUser(id: number, name: string, role: string): Promise<User> {
+  async updateUser(id: number, user: User): Promise<User> {
     const client = await this.pool.connect();
     try {
       const { rows } = await client.query<User>(
-        "UPDATE users SET name = $1, role = $2 WHERE id = $3 RETURNING *",
-        [name, role, id]
+        "UPDATE users SET name = $1 WHERE id = $2 RETURNING *",
+        [user.name, id]
       );
       return rows[0];
     } finally {

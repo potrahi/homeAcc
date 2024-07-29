@@ -1,7 +1,4 @@
 export type User = {
-  id: number;
+  id?: number;
   name: string;
-  role: string;
-  created_at: Date;
-  updated_at: Date;
 };
