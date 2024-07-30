@@ -7,7 +7,7 @@ type AuthState = {
 
 const initialState: AuthState = {
   user: null,
-  isAuthenticated: true,
+  isAuthenticated: false,
 };
 
 const authSlice = createSlice({
@@ -15,7 +15,6 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     login(state, action: PayloadAction<{ user: string }>) {
-      // This is where you'd add your authentication logic
       state.user = action.payload.user;
       state.isAuthenticated = true;
     },

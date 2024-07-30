@@ -1,31 +1,25 @@
 import express from "express";
-import dotenv from "dotenv";
 import cors from "cors";
-import { Pool } from "pg";
 import userRoutes from "./routes/user";
 import settingRoutes from "./routes/settings";
 import spendingRoutes from "./routes/spending";
-
-dotenv.config();
+import authRoutes from "./routes/auth";
+import bodyParser from "body-parser";
+import { authenticateToken } from "./middleware/authToken";
+import pool from "./db";
 
 const app = express();
 const port = 3000;
 
-const pool: Pool = new Pool({
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST,
-  database: process.env.DB_DATABASE,
-  password: process.env.DB_PASSWORD,
-  port: parseInt(process.env.DB_PORT as string),
-});
-
+app.use(bodyParser.json());
 app.use(cors());
 
 app.use(express.json());
 
-app.use("/users", userRoutes(pool));
-app.use("/settings", settingRoutes(pool));
-app.use("/spending", spendingRoutes(pool));
+app.use("/auth", authRoutes(pool));
+app.use("/users", authenticateToken, userRoutes(pool));
+app.use("/settings", authenticateToken, settingRoutes(pool));
+app.use("/spending", authenticateToken, spendingRoutes(pool));
 
 pool.connect((err, client, release) => {
   if (err) {

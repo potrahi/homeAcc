@@ -1,7 +1,7 @@
 -- Create the user table
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(100) NOT NULL
+    username VARCHAR(100) NOT NULL
 );
 -- Create the spendings table
 CREATE TABLE spendings (

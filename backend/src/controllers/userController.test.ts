@@ -36,7 +36,7 @@ describe("User Controller", () => {
 
   describe("getAllUsers", () => {
     it("should return all users", async () => {
-      const users = [{ id: 1, name: "John Doe" }];
+      const users = [{ id: 1, username: "John Doe" }];
       UserService.prototype.getAllUsers = jest.fn().mockResolvedValue(users);
 
       await getAllUsers(req as Request, res as Response, pool);
@@ -58,7 +58,7 @@ describe("User Controller", () => {
   });
   describe("getUserById", () => {
     it("should return user by id", async () => {
-      const mockUser = { id: 1, name: "John" };
+      const mockUser = { id: 1, username: "John" };
       if (!req.params) req.params = {};
       req.params.id = "1";
       UserService.prototype.getUserById = jest.fn().mockResolvedValue(mockUser);
@@ -86,8 +86,8 @@ describe("User Controller", () => {
   });
   describe("createUser", () => {
     it("should create a new user", async () => {
-      const newUser: User = { id: 1, name: "John Doe" };
-      req.body = { name: newUser.name };
+      const newUser: User = { id: 1, username: "John Doe" };
+      req.body = { username: newUser.username };
 
       (UserService.prototype.createUser as jest.Mock).mockResolvedValue(
         newUser
@@ -96,13 +96,13 @@ describe("User Controller", () => {
       await createUser(req as Request, res as Response, pool);
 
       expect(UserService.prototype.createUser).toHaveBeenCalledWith({
-        name: newUser.name,
+        username: newUser.username,
       });
       expect(res.json).toHaveBeenCalledWith(newUser);
     });
 
     it("should handle errors", async () => {
-      req.body = { name: "John Doe" };
+      req.body = { username: "John Doe" };
       const error = new Error("Test Error");
       (UserService.prototype.createUser as jest.Mock).mockRejectedValue(error);
 
@@ -115,16 +115,16 @@ describe("User Controller", () => {
   });
   describe("updateUser", () => {
     it("should update an existing user", async () => {
-      const mockUser: User = { id: 1, name: "John" };
+      const mockUser: User = { id: 1, username: "John" };
       if (!req.params) req.params = {};
       req.params.id = "1";
-      req.body = { name: "John" };
+      req.body = { username: "John" };
       UserService.prototype.updateUser = jest.fn().mockResolvedValue(mockUser);
 
       await updateUser(req as Request, res as Response, pool);
 
       expect(UserService.prototype.updateUser).toHaveBeenCalledWith(1, {
-        name: "John",
+        username: "John",
       });
       expect(res.json).toHaveBeenCalledWith(mockUser);
     });
@@ -133,7 +133,7 @@ describe("User Controller", () => {
       const errorMessage = "Error updating user";
       if (!req.params) req.params = {};
       req.params.id = "1";
-      req.body = { name: "John" };
+      req.body = { username: "John" };
       UserService.prototype.updateUser = jest
         .fn()
         .mockRejectedValue(new Error(errorMessage));
@@ -141,7 +141,7 @@ describe("User Controller", () => {
       await updateUser(req as Request, res as Response, pool);
 
       expect(UserService.prototype.updateUser).toHaveBeenCalledWith(1, {
-        name: "John",
+        username: "John",
       });
       expect(res.status).toHaveBeenCalledWith(500);
       expect(res.json).toHaveBeenCalledWith({ error: errorMessage });
@@ -150,7 +150,7 @@ describe("User Controller", () => {
 
   describe("deleteUser", () => {
     it("should delete a user by id", async () => {
-      const mockUser = { id: 1, name: "John" };
+      const mockUser = { id: 1, username: "John" };
       if (!req.params) req.params = {};
       req.params.id = "1";
       UserService.prototype.deleteUser = jest.fn().mockResolvedValue(mockUser);
@@ -179,7 +179,7 @@ describe("User Controller", () => {
 
   describe("deleteAllUsers", () => {
     it("should delete all users", async () => {
-      const mockUsers = [{ id: 1, name: "John" }];
+      const mockUsers = [{ id: 1, username: "John" }];
       UserService.prototype.deleteAllUsers = jest
         .fn()
         .mockResolvedValue(mockUsers);

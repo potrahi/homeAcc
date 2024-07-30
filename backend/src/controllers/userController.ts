@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { Pool } from "pg";
 import { UserService } from "../services/userService";
+import { User } from "../models/User";
 
 export const getAllUsers = async (req: Request, res: Response, pool: Pool) => {
   const userService = new UserService(pool);
@@ -22,23 +23,48 @@ export const getUserById = async (req: Request, res: Response, pool: Pool) => {
   }
 };
 
-export const createUser = async (req: Request, res: Response, pool: Pool) => {
-  const { name } = req.body;
+export const getUserByName = async (
+  req: Request,
+  res: Response,
+  pool: Pool,
+  username: string
+): Promise<User | null> => {
   const userService = new UserService(pool);
   try {
-    const user = await userService.createUser({ name });
-    res.json(user);
+    const user = await userService.getUserByName(username);
+    if (user) {
+      return user;
+    } else {
+      return null;
+    }
   } catch (error) {
     res.status(500).json({ error: (error as any).message });
+    return null;
+  }
+};
+
+export const createUser = async (
+  req: Request,
+  res: Response,
+  pool: Pool
+): Promise<User | null> => {
+  const { username } = req.body;
+  const userService = new UserService(pool);
+  try {
+    const user = await userService.createUser({ username });
+    return user;
+  } catch (error) {
+    res.status(500).json({ error: (error as any).message });
+    return null;
   }
 };
 
 export const updateUser = async (req: Request, res: Response, pool: Pool) => {
-  const { name } = req.body;
+  const { username } = req.body;
   const userService = new UserService(pool);
   try {
     const user = await userService.updateUser(parseInt(req.params.id), {
-      name,
+      username,
     });
     res.json(user);
   } catch (error) {

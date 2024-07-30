@@ -31,7 +31,7 @@ describe("UserService", () => {
   it("should return all users", async () => {
     const users: User[] = [
       {
-        name: "John Doe",
+        username: "John Doe",
       },
     ];
     (client.query as jest.Mock).mockResolvedValue({ rows: users });
@@ -45,7 +45,7 @@ describe("UserService", () => {
   });
 
   it("should get user by id", async () => {
-    const user = { name: "John" };
+    const user = { username: "John" };
     (client.query as jest.Mock).mockResolvedValue({ rows: [user] });
 
     const result = await userService.getUserById(1);
@@ -59,14 +59,14 @@ describe("UserService", () => {
   });
 
   it("should create a new user", async () => {
-    const createdUser: User = { name: "John Doe" };
+    const createdUser: User = { username: "John Doe" };
     (client.query as jest.Mock).mockResolvedValue({ rows: [createdUser] });
 
     const result = await userService.createUser(createdUser);
 
     expect(client.query).toHaveBeenCalledWith(
-      "INSERT INTO users (name) VALUES ($1) RETURNING *",
-      [createdUser.name]
+      "INSERT INTO users (username) VALUES ($1) RETURNING *",
+      [createdUser.username]
     );
     expect(result).toEqual(createdUser);
     expect(client.release).toHaveBeenCalled();
@@ -74,13 +74,13 @@ describe("UserService", () => {
   });
 
   it("should update a user", async () => {
-    const createdUser: User = { name: "John Doe" };
+    const createdUser: User = { username: "John Doe" };
     (client.query as jest.Mock).mockResolvedValue({ rows: [createdUser] });
 
-    const user = await userService.updateUser(1, { name: "John" });
+    const user = await userService.updateUser(1, { username: "John" });
 
     expect(client.query).toHaveBeenCalledWith(
-      "UPDATE users SET name = $1 WHERE id = $2 RETURNING *",
+      "UPDATE users SET username = $1 WHERE id = $2 RETURNING *",
       ["John", 1]
     );
     expect(user).toEqual(createdUser);
@@ -88,7 +88,7 @@ describe("UserService", () => {
   });
 
   it("should delete a user", async () => {
-    const createdUser: User = { name: "John Doe" };
+    const createdUser: User = { username: "John Doe" };
     (client.query as jest.Mock).mockResolvedValue({ rows: [createdUser] });
 
     const user = await userService.deleteUser(1);
@@ -102,7 +102,7 @@ describe("UserService", () => {
   });
 
   it("should delete all users", async () => {
-    const createdUser: User = { name: "John Doe" };
+    const createdUser: User = { username: "John Doe" };
     (client.query as jest.Mock).mockResolvedValue({ rows: createdUser });
 
     const users = await userService.deleteAllUsers();

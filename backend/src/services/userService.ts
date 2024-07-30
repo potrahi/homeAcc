@@ -27,14 +27,33 @@ export class UserService {
     }
   }
 
+  async getUserByName(username: string): Promise<User> {
+    const client = await this.pool.connect();
+    try {
+      const { rows } = await client.query<User>(
+        "SELECT * FROM users WHERE username = $1",
+        [username]
+      );
+      return rows[0];
+    } catch (error) {
+      console.error("Error getting user by name:", error);
+      throw error;
+    } finally {
+      client.release();
+    }
+  }
+
   async createUser(user: User): Promise<User> {
     const client = await this.pool.connect();
     try {
       const { rows } = await client.query<User>(
-        "INSERT INTO users (name) VALUES ($1) RETURNING *",
-        [user.name]
+        "INSERT INTO users (username) VALUES ($1) RETURNING *",
+        [user.username]
       );
       return rows[0];
+    } catch (error) {
+      console.error("Error creating user:", error);
+      throw error;
     } finally {
       client.release();
     }
@@ -44,8 +63,8 @@ export class UserService {
     const client = await this.pool.connect();
     try {
       const { rows } = await client.query<User>(
-        "UPDATE users SET name = $1 WHERE id = $2 RETURNING *",
-        [user.name, id]
+        "UPDATE users SET username = $1 WHERE id = $2 RETURNING *",
+        [user.username, id]
       );
       return rows[0];
     } finally {
