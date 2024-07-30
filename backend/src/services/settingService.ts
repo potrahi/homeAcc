@@ -1,5 +1,4 @@
 import { Pool } from "pg";
-import { Setting } from "../models/Settings";
 
 export class SettingService {
   constructor(private pool: Pool) {}

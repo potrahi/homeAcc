@@ -26,3 +26,4 @@ dist-ssr
 .env
 
 dummy_data.txt
+*.session.sql
