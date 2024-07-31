@@ -1,36 +1,56 @@
-import React from 'react'
+import React, { lazy, Suspense } from 'react'
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Provider } from 'react-redux'
+import Loading from './components/Loading'
 import ProtectedRoute from './ProtectedRoute'
-import Root from './pages/Root'
-import Home from './pages/Home'
-import Login from './pages/Login'
-import Register from './pages/Register'
 import store from './store'
 import './index.css'
+
+// eslint-disable-next-line react-refresh/only-export-components
+const Root = lazy(() => import('./pages/Root'));
+// eslint-disable-next-line react-refresh/only-export-components
+const Home = lazy(() => import('./pages/Home'));
+// eslint-disable-next-line react-refresh/only-export-components
+const Login = lazy(() => import('./pages/Login'));
+// eslint-disable-next-line react-refresh/only-export-components
+const Register = lazy(() => import('./pages/Register'));
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Root />,
+    element: (
+      <Suspense fallback={<Loading />}>
+        <Root />
+      </Suspense>
+    ),
     children: [
       {
         index: true,
-        element: <ProtectedRoute element={
-          <Home />
-        } />
+        element: (
+          <Suspense fallback={<Loading />}>
+            <ProtectedRoute element={<Home />} />
+          </Suspense>
+        ),
       },
       {
         path: 'login',
-        element: <Login />
+        element: (
+          <Suspense fallback={<Loading />}>
+            <Login />
+          </Suspense>
+        ),
       },
       {
         path: 'register',
-        element: <Register />
-      }
-    ]
+        element: (
+          <Suspense fallback={<Loading />}>
+            <Register />
+          </Suspense>
+        ),
+      },
+    ],
   }
 ])
 

@@ -1,23 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
-import { authActions } from '../store/auth';
-import './/Login.css';
 import { useMutation } from '@tanstack/react-query';
+import { authActions } from '../store/auth';
 import { loginUser } from '../api/auth';
-import { isTokenValid } from '../utils/auth';
+import './/Login.css';
 
 const Login: React.FC = () => {
     const [username, setUsername] = useState<string>('');
     const dispatch = useDispatch();
     const navigate = useNavigate();
-
-    useEffect(() => {
-        const token = localStorage.getItem('token');
-        if (isTokenValid(token)) {
-            navigate('/');
-        }
-    }, [navigate]);
 
     const mutation = useMutation({
         mutationFn: loginUser,

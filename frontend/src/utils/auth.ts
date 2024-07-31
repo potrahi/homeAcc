@@ -1,7 +1,8 @@
 import { jwtDecode } from "jwt-decode";
 
 type DecodedToken = {
-  exp: number;
+  username: string;
+  exp?: number;
 };
 
 export const isTokenValid = (token: string | null): boolean => {
@@ -11,11 +12,25 @@ export const isTokenValid = (token: string | null): boolean => {
 
   try {
     const decoded: DecodedToken = jwtDecode(token);
-    console.log("Decoded token:", decoded);
+
+    if (!decoded.exp) {
+      return true;
+    }
+
     const currentTime = Date.now() / 1000;
     return decoded.exp > currentTime;
   } catch (error) {
     console.error("Error decoding token:", error);
     return false;
+  }
+};
+
+export const getUsernameFromToken = (token: string): string | null => {
+  try {
+    const decoded: DecodedToken = jwtDecode(token);
+    return decoded.username;
+  } catch (error) {
+    console.error("Error decoding token:", error);
+    return null;
   }
 };
