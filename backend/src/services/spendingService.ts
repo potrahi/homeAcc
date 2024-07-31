@@ -7,7 +7,11 @@ export class SpendingService {
   async getAllSpendings(): Promise<Spending[]> {
     const client = await this.pool.connect();
     try {
-      const { rows } = await client.query<Spending>("SELECT * FROM spendings");
+      const { rows } = await client.query<Spending>(`
+        SELECT spendings.id, spendings.user_id, users.username, spendings.amount, spendings.created_at 
+        FROM spendings 
+        JOIN users ON spendings.user_id = users.id
+      `);
       return rows;
     } finally {
       client.release();
@@ -31,7 +35,7 @@ export class SpendingService {
     const client = await this.pool.connect();
     try {
       const { rows } = await client.query<Spending>(
-        "INSERT INTO spendings (user_id, amount, create_at) VALUES ($1, $2, $3) RETURNING *",
+        "INSERT INTO spendings (user_id, amount, created_at) VALUES ($1, $2, $3) RETURNING *",
         [spending.user_id, spending.amount, spending.created_at]
       );
       return rows[0];

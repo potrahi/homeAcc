@@ -39,11 +39,13 @@ export const createSpending = async (
 ) => {
   const { user_id, amount, created_at } = req.body;
   const spendingService = new SpendingService(pool);
+
+  const createdAtDate = new Date(created_at);
   try {
     const newSpending = await spendingService.createSpending({
       user_id,
       amount,
-      created_at,
+      created_at: createdAtDate,
     });
     res.json(newSpending);
   } catch (error) {
@@ -58,10 +60,12 @@ export const updateSpending = async (
 ) => {
   const { user_id, amount, created_at } = req.body;
   const spendingService = new SpendingService(pool);
+
+  const createdAtDate = new Date(created_at);
   try {
     const updatedSpending = await spendingService.updateSpending(
       parseInt(req.params.id),
-      { user_id, amount, created_at }
+      { user_id, amount, created_at: createdAtDate }
     );
     res.json(updatedSpending);
   } catch (error) {

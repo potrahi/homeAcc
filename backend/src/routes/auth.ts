@@ -21,7 +21,7 @@ export default (pool: Pool) => {
         return;
       }
 
-      const token = jwt.sign({ username }, SECRET_KEY);
+      const token = jwt.sign({ username, user_id: user.id }, SECRET_KEY);
       res.json({ success: true, token });
     } catch (error) {
       console.error("Error during login:", error);
@@ -48,7 +48,7 @@ export default (pool: Pool) => {
         return;
       }
 
-      const token = jwt.sign({ username }, SECRET_KEY);
+      const token = jwt.sign({ username, user_id: newUser.id }, SECRET_KEY);
       res.json({ success: true, token });
     } catch (error) {
       console.error("Error during registration:", error);
