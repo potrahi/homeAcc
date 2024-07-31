@@ -32,8 +32,8 @@ const SpendingForm: React.FC = () => {
             setDate(new Date().toISOString().slice(0, 16));
             setAmount('');
         },
-        onError: (error) => {
-            console.error('Error adding spending', error);
+        onError: (error: Error) => {
+            alert(error.message);
         }
     })
 

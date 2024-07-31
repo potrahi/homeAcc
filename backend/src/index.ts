@@ -12,7 +12,13 @@ const app = express();
 const port = 3000;
 
 app.use(bodyParser.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: "*", // or specify your frontend URL
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 
 app.use(express.json());
 

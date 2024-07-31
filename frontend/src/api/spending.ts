@@ -18,12 +18,14 @@ export const addSpending = async (newSpending: SpendingType) => {
     });
 
     if (!response.ok) {
-      throw new Error("Failed to add spending");
+      const errorData = await response.json();
+      throw new Error(errorData.error || "Failed to add spending. ");
     }
 
     return response.json();
   } catch (error) {
     console.error(error);
+    throw error;
   }
 };
 
@@ -36,11 +38,13 @@ export const fetchSpendings = async () => {
     });
 
     if (!response.ok) {
-      throw new Error("Failed to fetch spendings");
+      const errorData = await response.json();
+      throw new Error(errorData.error || "Failed to fetch spendings");
     }
 
     return response.json();
   } catch (error) {
     console.error(error);
+    throw error;
   }
-}
+};

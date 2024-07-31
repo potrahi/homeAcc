@@ -23,9 +23,8 @@ const Login: React.FC = () => {
                 alert(data.error);
             }
         },
-        onError: (error) => {
-            console.error("Error during login:", error);
-            alert('Login failed');
+        onError: (error: Error) => {
+            alert(error.message);
         }
     })
 

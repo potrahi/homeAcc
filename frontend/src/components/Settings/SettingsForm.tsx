@@ -34,7 +34,7 @@ const SettingsForm: React.FC = () => {
         },
         onError: (error: Error) => {
             setIsSubmitting(false);
-            alert("Error updating balance: " + error.message);
+            alert(error.message);
         }
     });
 

@@ -10,11 +10,13 @@ export const fetchSetting = async (setting: string) => {
     });
 
     if (!response.ok) {
-      throw new Error("Network response was not ok");
+      const erroData = await response.json();
+      throw new Error(erroData.error || "Network response was not ok");
     }
     return response.json();
   } catch (error) {
     console.error(error);
+    throw error;
   }
 };
 
@@ -37,12 +39,14 @@ export const updateSettings = async (settings: UpdateSettingsProps[]) => {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to update balance");
+        const erroData = await response.json();
+        throw new Error(erroData.error || "Failed to update balance");
       }
 
       return response.json();
     } catch (error) {
       console.error(error);
+      throw error;
     }
   }
 };

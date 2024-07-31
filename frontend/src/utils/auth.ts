@@ -39,6 +39,7 @@ export const getUsernameFromToken = (token: string): string | null => {
 export const getUserIdFromToken = (token: string): string | null => {
   try {
     const decoded: DecodedToken = jwtDecode(token);
+    console.log(decoded);
     return decoded.user_id ?? null;
   } catch (error) {
     console.error("Error decoding token:", error);

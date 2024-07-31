@@ -22,9 +22,8 @@ const Register: React.FC = () => {
                 alert(data.error);
             }
         },
-        onError: (error) => {
-            console.error("Error during registration:", error);
-            alert('Registration failed');
+        onError: (error: Error) => {
+            alert(error.message);
         },
     })
 

@@ -41,7 +41,7 @@ export default function SpendingTable() {
                     spendings.map((item: SpendingType, index: number) => (
                         <SpendingItem
                             key={index}
-                            id={item.id}
+                            id={(index + 1).toString()}
                             username={item.username}
                             amount={item.amount}
                             created_at={item.created_at}
