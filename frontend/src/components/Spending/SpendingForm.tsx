@@ -4,12 +4,38 @@ import { spendingActions } from '../../store/spending';
 import { modalActions } from '../../store/modal';
 import './SpendingForm.css';
 import useInput from '../../hooks/useInput';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { addSpending } from '../../api/spending';
+import { SpendingType } from '../../types/spending';
 
 const SpendingForm: React.FC = () => {
     const dispatch = useDispatch();
-    const [name, handleNameChange, setName] = useInput('');
+    const queryClient = useQueryClient();
+    const username = useSelector((state: RootState) => state.auth.user);
+    const user_id = useSelector((state: RootState) => state.auth.user_id);
+
+    const [name, handleNameChange, setName] = useInput(username || "");
     const [date, handleDateChange, setDate] = useInput(new Date().toISOString().slice(0, 16));
     const [amount, handleAmountChange, setAmount] = useInput('');
+
+    const mutation = useMutation({
+        mutationFn: addSpending,
+        onSuccess: (newSpending: SpendingType) => {
+            queryClient.invalidateQueries({ queryKey: ['spendings'] });
+            dispatch(spendingActions.addSpendings({
+                ...newSpending, username: username || ''
+            }));
+            dispatch(modalActions.closeModal());
+            setName('');
+            setDate(new Date().toISOString().slice(0, 16));
+            setAmount('');
+        },
+        onError: (error) => {
+            console.error('Error adding spending', error);
+        }
+    })
 
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
@@ -19,13 +45,13 @@ const SpendingForm: React.FC = () => {
         }
 
         console.log(name, date, amount);
-
-        dispatch(spendingActions.addSpend({ name, date, amount: parseFloat(amount) }));
-        dispatch(modalActions.closeModal());
-        setName('');
-        setDate(new Date().toISOString().slice(0, 16));
-        setAmount('');
-    };
+        const newSpending: SpendingType = {
+            user_id,
+            amount: parseFloat(amount),
+            created_at: date
+        };
+        mutation.mutate(newSpending);
+    }
 
     return (
         <form onSubmit={handleSubmit} className="spending-form">
@@ -38,6 +64,7 @@ const SpendingForm: React.FC = () => {
                     value={name}
                     onChange={handleNameChange}
                     className="form-control"
+                    readOnly={!!username}
                 />
             </div>
             <div className="form-group">

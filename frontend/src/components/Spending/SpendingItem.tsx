@@ -1,13 +1,13 @@
 import type { SpendingType } from "../../types/spending";
 
 
-export default function SpendingItem({ id, name, amount, date }: SpendingType) {
+export default function SpendingItem({ id, username, amount, created_at }: SpendingType) {
     return (
         <tr>
             <td>{id}</td>
-            <td>{name}</td>
+            <td>{username}</td>
             <td>{amount}</td>
-            <td>{date}</td>
+            <td>{created_at}</td>
         </tr>
     );
 }

@@ -13,18 +13,18 @@ const spendingSlice = createSlice({
   name: "spending",
   initialState,
   reducers: {
-    setSpend(state, action: PayloadAction<SpendingType[]>) {
+    setSpendings(state, action: PayloadAction<SpendingType[]>) {
       state.spendings = action.payload;
     },
-    addSpend(state, action: PayloadAction<SpendingType>) {
+    addSpendings(state, action: PayloadAction<SpendingType>) {
       state.spendings.push(action.payload);
     },
-    deleteSpend(state, action: PayloadAction<string>) {
+    deleteSpendings(state, action: PayloadAction<string>) {
       state.spendings = state.spendings.filter(
         (item) => item.id !== action.payload
       );
     },
-    updateSpend(state, action: PayloadAction<SpendingType>) {
+    updateSpendings(state, action: PayloadAction<SpendingType>) {
       const index = state.spendings.findIndex(
         (item) => item.id === action.payload.id
       );

@@ -1,6 +1,7 @@
 import { jwtDecode } from "jwt-decode";
 
 type DecodedToken = {
+  user_id: string;
   username: string;
   exp?: number;
 };
@@ -29,6 +30,16 @@ export const getUsernameFromToken = (token: string): string | null => {
   try {
     const decoded: DecodedToken = jwtDecode(token);
     return decoded.username;
+  } catch (error) {
+    console.error("Error decoding token:", error);
+    return null;
+  }
+};
+
+export const getUserIdFromToken = (token: string): string | null => {
+  try {
+    const decoded: DecodedToken = jwtDecode(token);
+    return decoded.user_id ?? null;
   } catch (error) {
     console.error("Error decoding token:", error);
     return null;

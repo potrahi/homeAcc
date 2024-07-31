@@ -3,6 +3,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 type AuthState = {
   user: string | null;
   isAuthenticated: boolean;
+  user_id?: number;
 };
 
 const initialState: AuthState = {
@@ -21,6 +22,9 @@ const authSlice = createSlice({
     logout(state) {
       state.user = null;
       state.isAuthenticated = false;
+    },
+    setUserId(state, action: PayloadAction<{ user_id: string }>) {
+      state.user_id = parseInt(action.payload.user_id);
     },
   },
 });

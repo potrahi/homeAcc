@@ -3,9 +3,28 @@ import SpendingItem from './SpendingItem';
 import type { SpendingType } from '../../types/spending';
 import { RootState } from '../../store';
 import './SpendingTable.css';
+import { useFetchSpendings } from '../../hooks/useFetchSpendings';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { spendingActions } from '../../store/spending';
 
 export default function SpendingTable() {
+    const dispatch = useDispatch();
     const spendings = useSelector((state: RootState) => state.spending.spendings);
+
+    const { data, error, isLoading } = useFetchSpendings();
+
+    useEffect(() => {
+        if (data) dispatch(spendingActions.setSpendings(data));
+    }, [data, dispatch]);
+
+    if (isLoading) {
+        return <div>Loading...</div>;
+    }
+
+    if (error) {
+        return <div>Error loading data</div>;
+    }
 
     return (
         <table>
@@ -23,9 +42,9 @@ export default function SpendingTable() {
                         <SpendingItem
                             key={index}
                             id={item.id}
-                            name={item.name}
+                            username={item.username}
                             amount={item.amount}
-                            date={item.date}
+                            created_at={item.created_at}
                         />
                     ))
                 }
