@@ -39,7 +39,9 @@ describe("SpendingService", () => {
     const result = await spendingService.getAllSpendings();
 
     expect(result).toEqual(mockSpendings);
-    expect(client.query).toHaveBeenCalledWith("SELECT * FROM spendings");
+    expect(client.query).toHaveBeenCalledWith(
+      `SELECT spendings.id, spendings.user_id, users.username, spendings.amount, spendings.created_at FROM spendings JOIN users ON spendings.user_id = users.id`
+    );
     expect(client.release).toHaveBeenCalled();
   });
 
@@ -83,7 +85,7 @@ describe("SpendingService", () => {
 
     expect(result).toEqual(createdSpending);
     expect(client.query).toHaveBeenCalledWith(
-      "INSERT INTO spendings (user_id, amount, create_at) VALUES ($1, $2, $3) RETURNING *",
+      "INSERT INTO spendings (user_id, amount, created_at) VALUES ($1, $2, $3) RETURNING *",
       [newSpending.user_id, newSpending.amount, newSpending.created_at]
     );
     expect(client.release).toHaveBeenCalled();
@@ -93,7 +95,7 @@ describe("SpendingService", () => {
     const updatedSpending: Spending = {
       id: 1,
       user_id: 1,
-      amount: 150
+      amount: 150,
     };
 
     (client.query as jest.Mock).mockResolvedValue({

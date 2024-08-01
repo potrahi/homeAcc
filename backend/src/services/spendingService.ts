@@ -7,11 +7,7 @@ export class SpendingService {
   async getAllSpendings(): Promise<Spending[]> {
     const client = await this.pool.connect();
     try {
-      const { rows } = await client.query<Spending>(`
-        SELECT spendings.id, spendings.user_id, users.username, spendings.amount, spendings.created_at 
-        FROM spendings 
-        JOIN users ON spendings.user_id = users.id
-      `);
+      const { rows } = await client.query<Spending>(`SELECT spendings.id, spendings.user_id, users.username, spendings.amount, spendings.created_at FROM spendings JOIN users ON spendings.user_id = users.id`);
       return rows;
     } finally {
       client.release();

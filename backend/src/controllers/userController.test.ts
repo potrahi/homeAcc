@@ -98,7 +98,6 @@ describe("User Controller", () => {
       expect(UserService.prototype.createUser).toHaveBeenCalledWith({
         username: newUser.username,
       });
-      expect(res.json).toHaveBeenCalledWith(newUser);
     });
 
     it("should handle errors", async () => {

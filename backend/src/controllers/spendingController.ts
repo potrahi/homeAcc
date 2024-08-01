@@ -58,14 +58,13 @@ export const updateSpending = async (
   res: Response,
   pool: Pool
 ) => {
-  const { user_id, amount, created_at } = req.body;
+  const { user_id, amount } = req.body;
   const spendingService = new SpendingService(pool);
 
-  const createdAtDate = new Date(created_at);
   try {
     const updatedSpending = await spendingService.updateSpending(
       parseInt(req.params.id),
-      { user_id, amount, created_at: createdAtDate }
+      { user_id, amount }
     );
     res.json(updatedSpending);
   } catch (error) {
