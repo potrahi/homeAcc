@@ -1,45 +1,68 @@
+import axios from "axios";
 import { API_URL } from "../config";
 
 export const registerUser = async (username: string) => {
   try {
-    const response = await fetch(`${API_URL}/auth/register`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ username }),
-    });
+    const response = await axios.post(
+      `${API_URL}/auth/register`,
+      { username },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.error || "Registration failed");
+    return response.data;
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      // Axios-specific error handling
+      if (error.response) {
+        // Request made and server responded
+        console.error(error.response.data);
+        throw new Error(error.response.data.error || "Registration failed");
+      } else if (error.request) {
+        // The request was made but no response was received
+        console.error(error.request);
+        throw new Error("No response received from server");
+      }
+    } else {
+      // Non-Axios-specific error handling
+      console.error("Error", (error as Error).message);
+      throw new Error((error as Error).message);
     }
-
-    return response.json();
-  } catch (error) {
-    console.error(error);
-    throw error;
   }
 };
 
 export const loginUser = async (username: string) => {
   try {
-    const response = await fetch(`${API_URL}/auth/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ username }),
-    });
+    const response = await axios.post(
+      `${API_URL}/auth/login`,
+      { username },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.error || "login failed");
+    return response.data;
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      // Axios-specific error handling
+      if (error.response) {
+        // Request made and server responded
+        console.error(error.response.data);
+        throw new Error(error.response.data.error || "Login failed");
+      } else if (error.request) {
+        // The request was made but no response was received
+        console.error(error.request);
+        throw new Error("No response received from server");
+      }
+    } else {
+      // Non-Axios-specific error handling
+      console.error("Error", (error as Error).message);
+      throw new Error((error as Error).message);
     }
-
-    return response.json();
-  } catch (error) {
-    console.error(error);
-    throw error;
   }
 };

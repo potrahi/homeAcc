@@ -22,10 +22,14 @@ app.use(
 
 app.use(express.json());
 
-app.use("/auth", authRoutes(pool));
-app.use("/users", authenticateToken, userRoutes(pool));
-app.use("/settings", authenticateToken, settingRoutes(pool));
-app.use("/spending", authenticateToken, spendingRoutes(pool));
+const mainRouter = express.Router();
+
+mainRouter.use("/auth", authRoutes(pool));
+mainRouter.use("/users", authenticateToken, userRoutes(pool));
+mainRouter.use("/settings", authenticateToken, settingRoutes(pool));
+mainRouter.use("/spending", authenticateToken, spendingRoutes(pool));
+
+app.use("/api", mainRouter);
 
 pool.connect((err, client, release) => {
   if (err) {

@@ -1,16 +1,72 @@
 services:
   accounting_db:
-    container_name: accounting_db 
     image: postgres
+    container_name: accounting_db
+    restart: always
+    volumes:
+      - ./accounting_db:/var/lib/postgresql/data
+      - ./backend/init:/docker-entrypoint-initdb.d:ro
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
-    volumes:
-      - accounting_db:/var/lib/postgresql/data
-      - ./backend/init:/docker-entrypoint-initdb.d:ro
     ports:
       - "5433:5432"
+    networks:
+      - node-network
 
-volumes:
-  accounting_db:
+  backend:
+    build:
+      context: backend
+    container_name: backend
+    working_dir: /usr/src/app
+    networks:
+      - node-network
+    volumes:
+      - ./backend:/usr/src/app
+      - /usr/src/app/node_modules
+    environment:
+      - DB_USER=${DB_USER}
+      - DB_HOST=accounting_db
+      - DB_DATABASE=${DB_DATABASE}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_PORT=5432
+    tty: true
+    ports:
+      - "3000:3000"
+    command: npm run start
+    depends_on:
+      - accounting_db
+
+  frontend:
+    build:
+      context: frontend
+    container_name: frontend
+    working_dir: /usr/src/app
+    networks:
+      - node-network
+    volumes:
+      - ./frontend:/usr/src/app
+      - /usr/src/app/node_modules
+    tty: true
+    ports:
+      - "5173:5713"
+    command: npm run dev
+
+  nginx:
+    build:
+      context: nginx
+    container_name: nginx
+    restart: always
+    tty: true
+    ports:
+      - "8000:80"
+    networks:
+      - node-network
+    depends_on:
+      - backend
+      - frontend
+
+networks:
+  node-network:
+    driver: bridge

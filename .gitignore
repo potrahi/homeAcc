@@ -26,4 +26,6 @@ dist-ssr
 .env
 
 dummy_data.txt
-*.session.sql
+*.session.
+
+/accounting_db
