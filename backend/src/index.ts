@@ -9,7 +9,7 @@ import { authenticateToken } from "./middleware/authToken";
 import pool from "./db";
 
 const app = express();
-const port = 3000;
+const port = 5000;
 
 app.use(bodyParser.json());
 app.use(
@@ -22,14 +22,12 @@ app.use(
 
 app.use(express.json());
 
-const mainRouter = express.Router();
 
-mainRouter.use("/auth", authRoutes(pool));
-mainRouter.use("/users", authenticateToken, userRoutes(pool));
-mainRouter.use("/settings", authenticateToken, settingRoutes(pool));
-mainRouter.use("/spending", authenticateToken, spendingRoutes(pool));
+app.use("/auth", authRoutes(pool));
+app.use("/users", authenticateToken, userRoutes(pool));
+app.use("/settings", authenticateToken, settingRoutes(pool));
+app.use("/spending", authenticateToken, spendingRoutes(pool));
 
-app.use("/api", mainRouter);
 
 pool.connect((err, client, release) => {
   if (err) {

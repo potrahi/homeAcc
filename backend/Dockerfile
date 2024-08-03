@@ -1,9 +1,21 @@
-FROM node:alpine
+FROM node:alpine AS build
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
-COPY . .
-
+COPY package*.json ./
 RUN npm install
 
-EXPOSE 3000
+COPY . .
+RUN npm run build
+
+FROM node:alpine
+
+WORKDIR /app
+
+COPY --from=build /app/dist ./dist
+COPY package*.json ./
+RUN npm install --only=production
+
+EXPOSE 5000
+
+CMD ["npm", "run", "serve"]
