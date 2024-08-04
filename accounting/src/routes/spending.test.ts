@@ -1,7 +1,7 @@
 import request from "supertest";
 import express, { Express } from "express";
 import { Pool } from "pg";
-import spendingRoutes from "../routes/spending";
+import spendingRoutes from "./spending";
 import * as spendingController from "../controllers/spendingController";
 
 jest.mock("pg", () => {

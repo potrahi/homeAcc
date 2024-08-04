@@ -1,5 +1,5 @@
 import { Pool, PoolClient } from "pg";
-import { SpendingService } from "../services/spendingService";
+import { SpendingService } from "./spendingService";
 import { Spending } from "../models/Spending";
 
 jest.mock("pg", () => {
