@@ -44,7 +44,7 @@ export default function SpendingTable() {
                             id={(index + 1).toString()}
                             username={item.username}
                             amount={item.amount}
-                            created_at={item.created_at}
+                            created_at={new Date(item.created_at).toLocaleString()}
                         />
                     ))
                 }
