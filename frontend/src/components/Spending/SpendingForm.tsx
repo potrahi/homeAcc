@@ -44,7 +44,6 @@ const SpendingForm: React.FC = () => {
             return;
         }
 
-        console.log(name, date, amount);
         const newSpending: SpendingType = {
             user_id,
             amount: parseFloat(amount),

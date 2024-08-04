@@ -3,7 +3,6 @@ import { API_URL } from "../config";
 import { SpendingType } from "../types/spending";
 
 export const addSpending = async (newSpending: SpendingType) => {
-  console.log(newSpending);
   try {
     const response = await axios.post(
       `${API_URL}/spending/`,
