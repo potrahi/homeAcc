@@ -1,15 +1,18 @@
 import express from "express";
 import cors from "cors";
+import bodyParser from "body-parser";
+import dotenv from "dotenv";
 import userRoutes from "./routes/user";
 import settingRoutes from "./routes/settings";
 import spendingRoutes from "./routes/spending";
 import authRoutes from "./routes/auth";
-import bodyParser from "body-parser";
 import { authenticateToken } from "./middleware/authToken";
 import pool from "./db";
 
+dotenv.config();
+
 const app = express();
-const port = 5000;
+const port = process.env.ACC_PORT || 4000;
 
 app.use(bodyParser.json());
 app.use(
@@ -22,12 +25,10 @@ app.use(
 
 app.use(express.json());
 
-
 app.use("/auth", authRoutes(pool));
 app.use("/users", authenticateToken, userRoutes(pool));
 app.use("/settings", authenticateToken, settingRoutes(pool));
 app.use("/spending", authenticateToken, spendingRoutes(pool));
-
 
 pool.connect((err, client, release) => {
   if (err) {

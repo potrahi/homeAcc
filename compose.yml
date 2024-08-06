@@ -21,6 +21,7 @@ services:
     build: ./accounting
     container_name: accounting
     environment:
+      - ACC_PORT=5000
       - SECRET_KEY=${SECRET_KEY}
       - ACC_DB_USER=${ACC_DB_USER}
       - ACC_DB_PASSWORD=${ACC_DB_PASSWORD}
@@ -39,7 +40,11 @@ services:
       retries: 3
 
   frontend:
-    build: ./frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        VITE_API_URL: /api
     container_name: home-frontend
     ports:
       - "3000:80"
