@@ -7,6 +7,7 @@ import { useFetchSpendings } from '../../hooks/useFetchSpendings';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { spendingActions } from '../../store/spending';
+import { getCurrentMonthSpendings } from '../../utils/spendings';
 
 export default function SpendingTable() {
     const dispatch = useDispatch();
@@ -15,7 +16,10 @@ export default function SpendingTable() {
     const { data, error, isLoading } = useFetchSpendings();
 
     useEffect(() => {
-        if (data) dispatch(spendingActions.setSpendings(data));
+        if (data) {
+            const currentMonthSpendings = getCurrentMonthSpendings(data);
+            dispatch(spendingActions.setSpendings(currentMonthSpendings));
+        }
     }, [data, dispatch]);
 
     if (isLoading) {
