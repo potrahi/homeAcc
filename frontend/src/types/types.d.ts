@@ -1,10 +1,12 @@
-import { ReactNode } from 'react';
+import { ReactNode } from "react";
 
 export type OpenModalButtonProps = {
-    contentId: React.ReactNode;
-    children?: React.ReactNode;
-    className?: string;
-}
+  contentId: string;
+  children?: React.ReactNode;
+  className?: string;
+  payload?: SpendingType | null;
+};
 export type ModalContextType = {
-    setModalContent: (content: ReactNode) => void;
-}
+  setModalContent: (content: ReactNode) => void;
+  setModalPayload?: (payload: SpendingType | null) => void;
+};

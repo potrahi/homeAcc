@@ -1,8 +1,16 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { SpendingType } from "../types/spending";
 
-const initialState = {
+interface ModalState {
+  isOpen: boolean;
+  contentId: string | null;
+  payload: SpendingType | null;
+}
+
+const initialState: ModalState = {
   isOpen: false,
   contentId: null,
+  payload: null,
 };
 
 const modalSlice = createSlice({
@@ -14,9 +22,14 @@ const modalSlice = createSlice({
     },
     closeModal: (state) => {
       state.isOpen = false;
+      state.contentId = null;
+      state.payload = null;
     },
-    setModalContent: (state, action) => {
+    setModalContent: (state, action: PayloadAction<string | null>) => {
       state.contentId = action.payload;
+    },
+    setModalPayload: (state, action: PayloadAction<SpendingType | null>) => {
+      state.payload = action.payload;
     },
   },
 });

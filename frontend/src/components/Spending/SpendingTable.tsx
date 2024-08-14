@@ -34,10 +34,10 @@ export default function SpendingTable() {
         <table>
             <thead>
                 <tr>
-                    <th>#</th>
                     <th>Who</th>
                     <th>Amount</th>
                     <th>When</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -45,7 +45,7 @@ export default function SpendingTable() {
                     spendings.map((item: SpendingType, index: number) => (
                         <SpendingItem
                             key={index}
-                            id={(index + 1).toString()}
+                            id={item.id}
                             username={item.username}
                             amount={item.amount}
                             created_at={new Date(item.created_at).toLocaleString()}

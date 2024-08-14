@@ -56,3 +56,58 @@ export const fetchSpendings = async () => {
     }
   }
 };
+
+export const updateSpending = async (updatedSpendig: SpendingType) => {
+  try {
+    const response = await axios.put(
+      `${API_URL}/spending/${updatedSpendig.id}`,
+      {
+        user_id: updatedSpendig.user_id,
+        amount: updatedSpendig.amount,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: localStorage.getItem("token") || "",
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      if (error.response) {
+        throw new Error(
+          error.response.data.error || "Failed to update spending"
+        );
+      } else if (error.request) {
+        throw new Error("No response received from server");
+      }
+    } else {
+      throw new Error((error as Error).message);
+    }
+  }
+};
+
+export const deleteSpending = async (id: string) => {
+  try {
+    const response = await axios.delete(`${API_URL}/spending/${id}`, {
+      headers: {
+        Authorization: localStorage.getItem("token") || "",
+      },
+    });
+    return response.data;
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      if (error.response) {
+        throw new Error(
+          error.response.data.error || "Failed to delete spending."
+        );
+      } else if (error.request) {
+        throw new Error("No response received from server");
+      }
+    } else {
+      throw new Error((error as Error).message);
+    }
+  }
+};

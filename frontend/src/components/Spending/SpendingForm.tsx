@@ -1,54 +1,79 @@
-import React from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { SpendingType } from '../../types/spending';
+import { RootState } from '../../store';
 import { spendingActions } from '../../store/spending';
 import { modalActions } from '../../store/modal';
-import './SpendingForm.css';
 import useInput from '../../hooks/useInput';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../store';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { addSpending } from '../../api/spending';
-import { SpendingType } from '../../types/spending';
+import { addSpending, updateSpending } from '../../api/spending';
+import { convertToDateTimeLocalString } from '../../utils/format';
+import './SpendingForm.css';
 
 const SpendingForm: React.FC = () => {
     const dispatch = useDispatch();
     const queryClient = useQueryClient();
-    const username = useSelector((state: RootState) => state.auth.user);
-    const user_id = useSelector((state: RootState) => state.auth.user_id);
 
-    const [name, handleNameChange, setName] = useInput(username || "");
-    const [date, handleDateChange, setDate] = useInput(new Date().toISOString().slice(0, 16));
-    const [amount, handleAmountChange, setAmount] = useInput('');
+    const { payload: modalPayload } = useSelector((state: RootState) => state.modal);
+    const { user: username, user_id } = useSelector((state: RootState) => state.auth);
+
+    const [name, handleNameChange, setName] = useInput(modalPayload?.username || username || "");
+    const [date, handleDateChange, setDate] = useInput(
+        modalPayload?.created_at
+            ? convertToDateTimeLocalString(new Date(modalPayload.created_at))
+            : convertToDateTimeLocalString(new Date())
+    );
+    const [amount, handleAmountChange, setAmount] = useInput(modalPayload?.amount.toString() || '');
+
+    useEffect(() => {
+        if (modalPayload) {
+            setName(modalPayload.username || '');
+            const formattedDate = modalPayload.created_at
+                ? convertToDateTimeLocalString(new Date(modalPayload.created_at))
+                : convertToDateTimeLocalString(new Date())
+            setDate(formattedDate);
+            setAmount(modalPayload.amount.toString());
+            console.log('Original Date:', modalPayload?.created_at);
+            console.log('Formatted Date:', formattedDate);
+        }
+    }, [modalPayload, setName, setDate, setAmount]);
+
 
     const mutation = useMutation({
-        mutationFn: addSpending,
-        onSuccess: (newSpending: SpendingType) => {
+        mutationFn: modalPayload ? updateSpending : addSpending,
+        onSuccess: (spending: SpendingType) => {
             queryClient.invalidateQueries({ queryKey: ['spendings'] });
-            dispatch(spendingActions.addSpendings({
-                ...newSpending, username: username || ''
-            }));
+            const action = modalPayload
+                ? spendingActions.updateSpendings
+                : spendingActions.addSpendings;
+            dispatch(action({ ...spending, username: username || "" }))
             dispatch(modalActions.closeModal());
-            setName('');
-            setDate(new Date().toISOString().slice(0, 16));
-            setAmount('');
+            resetForm();
         },
         onError: (error: Error) => {
             alert(error.message);
         }
     })
 
+    const resetForm = () => {
+        setName('');
+        setDate(convertToDateTimeLocalString(new Date()));
+        setAmount('');
+    }
+
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
 
-        if (!name || !date || !amount) {
-            return;
-        }
+        if (!name || !date || !amount) return;
 
         const newSpending: SpendingType = {
+            id: modalPayload?.id,
             user_id,
             amount: parseFloat(amount),
-            created_at: date
+            created_at: date,
+            username: name
         };
+
         mutation.mutate(newSpending);
     }
 

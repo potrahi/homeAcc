@@ -1,14 +1,20 @@
 import { Link } from "react-router-dom";
 import Balance from "../components/Balance";
 import RealTimeDate from "../components/RealTimeDate";
-import OpenModalButton from "../components/OpenModalButton";
 import SettingsButton from "../components/Settings/SettingsButton";
 import ModalComponent from "../components/ModalComponent";
 import SpendingTable from "../components/Spending/SpendingTable";
 import "./Home.css";
+import { useDispatch } from "react-redux";
+import { modalActions } from "../store/modal";
 
 export default function Home() {
+    const dispatch = useDispatch()
 
+    const handleNewTransaction = () => {
+        dispatch(modalActions.setModalContent("SpendingForm"));
+        dispatch(modalActions.openModal())
+    }
 
     return (
         <>
@@ -28,12 +34,7 @@ export default function Home() {
                 <div className="table-container">
                     <SpendingTable />
                 </div>
-                <OpenModalButton
-                    className="add-transaction-button"
-                    contentId="SpendingForm"
-                >
-                    <button>Add transaction</button>
-                </OpenModalButton>
+                <button className="add-transaction-button" onClick={handleNewTransaction}>Add transaction</button>
             </div>
             <ModalComponent />
         </>
