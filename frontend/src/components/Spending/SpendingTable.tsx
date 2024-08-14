@@ -18,7 +18,12 @@ export default function SpendingTable() {
     useEffect(() => {
         if (data) {
             const currentMonthSpendings = getCurrentMonthSpendings(data);
-            dispatch(spendingActions.setSpendings(currentMonthSpendings));
+            const sortedSpendings = currentMonthSpendings.sort((a, b) => {
+                const dateA = new Date(a.created_at).getTime();
+                const dateB = new Date(b.created_at).getTime();
+                return dateB - dateA;
+            });
+            dispatch(spendingActions.setSpendings(sortedSpendings));
         }
     }, [data, dispatch]);
 

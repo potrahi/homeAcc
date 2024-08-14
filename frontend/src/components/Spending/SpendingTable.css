@@ -5,7 +5,6 @@ table {
 
 th,
 td {
-  width: 33.33%;
   padding: 8px;
   text-align: left;
   border: 1px solid #ddd;
@@ -20,7 +19,7 @@ tbody tr:nth-child(even) {
 }
 th:nth-child(1),
 td:nth-child(1) {
-  width: 12%;
+  width: 25%;
 }
 th:nth-child(2),
 td:nth-child(2) {
@@ -32,5 +31,24 @@ td:nth-child(3) {
 }
 th:nth-child(4),
 td:nth-child(4) {
-  width: 18%;
+  width: 1%;
+}
+
+@media (max-width: 768px) {
+  th:nth-child(1),
+  td:nth-child(1) {
+    width: 40%;
+  }
+  th:nth-child(2),
+  td:nth-child(2) {
+    width: 20%;
+  }
+  th:nth-child(3),
+  td:nth-child(3) {
+    width: 20%;
+  }
+  th:nth-child(4),
+  td:nth-child(4) {
+    width: 1%;
+  }
 }

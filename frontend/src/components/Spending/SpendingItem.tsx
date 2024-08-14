@@ -1,7 +1,9 @@
 import { useDispatch } from "react-redux";
 import type { SpendingType } from "../../types/spending";
 import { modalActions } from "../../store/modal";
-
+import editIcon from "../../assets/edit-icon.svg"
+import deleteIcon from "../../assets/delete-icon.svg";
+import "./SpendingItem.css"
 
 export default function SpendingItem({ id, username, amount, created_at }: SpendingType) {
     const dispatch = useDispatch();
@@ -18,8 +20,12 @@ export default function SpendingItem({ id, username, amount, created_at }: Spend
             <td>{amount}</td>
             <td>{created_at}</td>
             <td>
-                <button onClick={() => handleClick("SpendingForm")}>Edit</button>
-                <button onClick={() => handleClick("DeleteConfirmation")}>Delete</button>
+                <button className="edit-button" onClick={() => handleClick("SpendingForm")}>
+                    <img src={editIcon} alt="Edit" className="edit-icon" />
+                </button>
+                <button className="delete-button" onClick={() => handleClick("DeleteConfirmation")}>
+                    <img src={deleteIcon} alt="Delete" className="delete-icon" />
+                </button>
             </td>
         </tr>
     );

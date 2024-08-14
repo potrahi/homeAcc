@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { SpendingType } from '../../types/spending';
@@ -7,7 +7,7 @@ import { spendingActions } from '../../store/spending';
 import { modalActions } from '../../store/modal';
 import useInput from '../../hooks/useInput';
 import { addSpending, updateSpending } from '../../api/spending';
-import { convertToDateTimeLocalString } from '../../utils/format';
+import { convertToDateTimeLocalString, parseDateString } from '../../utils/date';
 import './SpendingForm.css';
 
 const SpendingForm: React.FC = () => {
@@ -20,24 +20,10 @@ const SpendingForm: React.FC = () => {
     const [name, handleNameChange, setName] = useInput(modalPayload?.username || username || "");
     const [date, handleDateChange, setDate] = useInput(
         modalPayload?.created_at
-            ? convertToDateTimeLocalString(new Date(modalPayload.created_at))
+            ? convertToDateTimeLocalString(parseDateString(modalPayload.created_at))
             : convertToDateTimeLocalString(new Date())
     );
     const [amount, handleAmountChange, setAmount] = useInput(modalPayload?.amount.toString() || '');
-
-    useEffect(() => {
-        if (modalPayload) {
-            setName(modalPayload.username || '');
-            const formattedDate = modalPayload.created_at
-                ? convertToDateTimeLocalString(new Date(modalPayload.created_at))
-                : convertToDateTimeLocalString(new Date())
-            setDate(formattedDate);
-            setAmount(modalPayload.amount.toString());
-            console.log('Original Date:', modalPayload?.created_at);
-            console.log('Formatted Date:', formattedDate);
-        }
-    }, [modalPayload, setName, setDate, setAmount]);
-
 
     const mutation = useMutation({
         mutationFn: modalPayload ? updateSpending : addSpending,

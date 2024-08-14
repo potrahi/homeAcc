@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import gear from '../../assets/gear-svgrepo-com.svg';
+import gear from '../../assets/gear-icon.svg';
 import { useDispatch } from 'react-redux';
 import { modalActions } from '../../store/modal';
 import './SettingsButton.css';

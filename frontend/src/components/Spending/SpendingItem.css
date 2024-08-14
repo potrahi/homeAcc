@@ -1,0 +1,10 @@
+.edit-button,
+.delete-button {
+  background-color: transparent;
+}
+
+.edit-icon,
+.delete-icon {
+  height: 20px;
+  width: 24px;
+}
