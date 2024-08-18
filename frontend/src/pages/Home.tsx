@@ -1,26 +1,51 @@
+import React, { useCallback, useState } from "react";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../store";
+import { modalActions } from "../store/modal";
+import Modal from "../components/UI/Modal";
 import Balance from "../components/Balance";
 import RealTimeDate from "../components/RealTimeDate";
 import SettingsButton from "../components/Settings/SettingsButton";
-import ModalComponent from "../components/ModalComponent";
+import SettingsForm from "../components/Settings/SettingsForm";
 import SpendingTable from "../components/Spending/SpendingTable";
+import SpendingDeleteDialog from "../components/Spending/SpendingDeleteDialog";
+import SpendingForm from "../components/Spending/SpendingForm";
 import "./Home.css";
-import { useDispatch } from "react-redux";
-import { modalActions } from "../store/modal";
 
 export default function Home() {
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
+    const isModalOpen = useSelector((state: RootState) => state.modal.isOpen);
 
-    const handleNewTransaction = () => {
-        dispatch(modalActions.setModalContent("SpendingForm"));
-        dispatch(modalActions.openModal())
-    }
+    const [modalContent, setModalContent] = useState<React.ReactNode>(null);
+
+    const openModalWithContent = useCallback((content: React.ReactNode) => {
+        setModalContent(content);
+        dispatch(modalActions.openModal());
+    }, [dispatch]);
+
+    const handleOpenSettings = useCallback(() => {
+        openModalWithContent(<SettingsForm />)
+    }, [openModalWithContent]);
+
+    const handleNewTransaction = useCallback(() => {
+        openModalWithContent(<SpendingForm />);
+    }, [openModalWithContent]);
+
+    const handleEditDeleteSpending = useCallback((isDelete: boolean) => {
+        openModalWithContent(isDelete ? <SpendingDeleteDialog /> : <SpendingForm />);
+    }, [openModalWithContent]);
+
+    const handleCloseModal = useCallback(() => {
+        dispatch(modalActions.closeModal());
+        setModalContent(null);
+    }, [dispatch]);
 
     return (
         <>
             <nav className="navbar">
                 <Link to="/" className="nav-link">Home</Link>
-                <SettingsButton />
+                <SettingsButton onClick={handleOpenSettings} />
             </nav>
             <div className="main-content">
                 <div className="info-container">
@@ -32,11 +57,11 @@ export default function Home() {
                     </div>
                 </div>
                 <div className="table-container">
-                    <SpendingTable />
+                    <SpendingTable onEditDeleteSpending={handleEditDeleteSpending} />
                 </div>
                 <button className="add-transaction-button" onClick={handleNewTransaction}>Add transaction</button>
             </div>
-            <ModalComponent />
+            <Modal isOpen={isModalOpen} onClose={handleCloseModal}>{modalContent}</Modal>
         </>
     );
 }

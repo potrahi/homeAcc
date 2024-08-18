@@ -1,32 +1,47 @@
 import { useDispatch } from "react-redux";
-import type { SpendingType } from "../../types/spending";
 import { modalActions } from "../../store/modal";
-import editIcon from "../../assets/edit-icon.svg"
 import deleteIcon from "../../assets/delete-icon.svg";
+import editIcon from "../../assets/edit-icon.svg"
+import IconButton from "../UI/IconButton";
 import "./SpendingItem.css"
 
-export default function SpendingItem({ id, username, amount, created_at }: SpendingType) {
+interface SpendingItemProps {
+    id: string,
+    username?: string,
+    amount: number | string,
+    created_at: string,
+    onEditDelete: (isDelete: boolean) => void;
+}
+
+const SpendingItem: React.FC<SpendingItemProps> = ({ id, username, amount, created_at, onEditDelete }) => {
     const dispatch = useDispatch();
 
-    const handleClick = (modalContext: string) => {
-        dispatch(modalActions.setModalContent(modalContext));
-        dispatch(modalActions.setModalPayload({ id, username, amount, created_at }));
-        dispatch(modalActions.openModal())
+    const handleAction = (isDelete: boolean) => {
+        dispatch(modalActions.setModalPayload({ id, username, amount, created_at }))
+        onEditDelete(isDelete);
     }
 
     return (
-        <tr>
+        <>
             <td>{username}</td>
             <td>{amount}</td>
             <td>{created_at}</td>
             <td>
-                <button className="edit-button" onClick={() => handleClick("SpendingForm")}>
-                    <img src={editIcon} alt="Edit" className="edit-icon" />
-                </button>
-                <button className="delete-button" onClick={() => handleClick("DeleteConfirmation")}>
-                    <img src={deleteIcon} alt="Delete" className="delete-icon" />
-                </button>
+                <IconButton
+                    onClick={() => handleAction(false)}
+                    icon={editIcon}
+                    altText="Edit"
+                    className="edit-button"
+                />
+                <IconButton
+                    onClick={() => handleAction(true)}
+                    icon={deleteIcon}
+                    altText="Delete"
+                    className="delete-button"
+                />
             </td>
-        </tr>
+        </>
     );
 }
+
+export default SpendingItem;

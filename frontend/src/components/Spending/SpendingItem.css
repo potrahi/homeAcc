@@ -3,8 +3,8 @@
   background-color: transparent;
 }
 
-.edit-icon,
-.delete-icon {
+.edit-button-icon,
+.delete-button-icon {
   height: 20px;
   width: 24px;
 }

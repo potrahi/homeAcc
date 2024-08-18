@@ -1,21 +1,13 @@
-import React, { useCallback, useEffect, ReactNode } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../store';
-import { modalActions } from '../../store/modal';
-import './styles/Modal.css';
+import React, { useEffect, ReactNode } from 'react';
+import './Modal.css';
 
 type ModalProps = {
+    isOpen: boolean;
+    onClose: () => void;
     children: ReactNode;
 }
 
-const Modal: React.FC<ModalProps> = ({ children }) => {
-    const dispatch = useDispatch();
-    const isOpen = useSelector((state: RootState) => state.modal.isOpen);
-
-    const handleClose = useCallback(() => {
-        dispatch(modalActions.closeModal());
-    }, [dispatch]);
-
+const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
     useEffect(() => {
         if (isOpen) {
             document.body.style.overflow = 'hidden';
@@ -29,9 +21,9 @@ const Modal: React.FC<ModalProps> = ({ children }) => {
     }
 
     return (
-        <div className="modal-overlay" onClick={handleClose}>
+        <div className="modal-overlay" onClick={onClose}>
             <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-                <button className="close-button" onClick={handleClose}>&times;</button>
+                <button className="close-button" onClick={onClose}>&times;</button>
                 {children}
             </div>
         </div>

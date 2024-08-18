@@ -7,6 +7,7 @@ import useInput from '../../hooks/useInput';
 import { useMutation } from '@tanstack/react-query';
 import { updateSettings } from '../../api/settings';
 import { useSetting } from '../../hooks/useSettings';
+import Form from '../UI/Form';
 
 const SettingsForm: React.FC = () => {
     const dispatch = useDispatch();
@@ -64,32 +65,29 @@ const SettingsForm: React.FC = () => {
         setCurrency('');
     };
 
+    const formFields = [
+        {
+            label: "Budget",
+            id: "budget",
+            type: "text",
+            value: budget,
+            onChange: handleBudgetChange,
+        },
+        {
+            label: "Currency",
+            id: "currency",
+            type: "text",
+            value: currency,
+            onChange: handleCurrencyChange,
+        },
+    ]
+
     return (
-        <form onSubmit={handleSubmit} className="spending-form">
-            <div className="form-group">
-                <label htmlFor="budget">Budget:</label>
-                <input
-                    type="text"
-                    id="budget"
-                    name="budget"
-                    value={budget}
-                    onChange={handleBudgetChange}
-                    className="form-control"
-                />
-            </div>
-            <div className="form-group">
-                <label htmlFor="currency">Currency:</label>
-                <input
-                    type="text"
-                    id="currency"
-                    name="currency"
-                    value={currency}
-                    onChange={handleCurrencyChange}
-                    className="form-control"
-                />
-            </div>
-            <button type="submit" className="btn-submit">{isSubmitting ? 'Saving...' : 'Save'}</button>
-        </form>
+        <Form
+            formFields={formFields}
+            onSubmit={handleSubmit}
+            submitButtonLabel={isSubmitting ? 'Saving...' : 'Save'}
+        />
     );
 };
 

@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
 import gear from '../../assets/gear-icon.svg';
-import { useDispatch } from 'react-redux';
-import { modalActions } from '../../store/modal';
 import './SettingsButton.css';
 
-const SettingsButton: React.FC = () => {
-    const dispatch = useDispatch();
+interface SettingsButtonProps {
+    onClick: () => void;
+}
+
+const SettingsButton: React.FC<SettingsButtonProps> = ({ onClick }) => {
 
     const [isClicked, setIsClicked] = useState(false);
 
     const handleClick = () => {
         setIsClicked(true);
         setTimeout(() => setIsClicked(false), 250);
-        dispatch(modalActions.setModalContent("SettingsForm"));
-        dispatch(modalActions.openModal())
+        onClick();
     }
 
     return (

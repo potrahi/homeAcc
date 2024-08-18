@@ -1,15 +1,19 @@
-import { useSelector } from 'react-redux';
-import SpendingItem from './SpendingItem';
-import type { SpendingType } from '../../types/spending';
-import { RootState } from '../../store';
-import './SpendingTable.css';
-import { useFetchSpendings } from '../../hooks/useFetchSpendings';
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { SpendingType } from '../../types/spending';
+import { RootState } from '../../store';
 import { spendingActions } from '../../store/spending';
 import { getCurrentMonthSpendings } from '../../utils/spendings';
+import { useFetchSpendings } from '../../hooks/useFetchSpendings';
+import SpendingItem from './SpendingItem';
+import Table from '../UI/Table';
+import './SpendingTable.css';
 
-export default function SpendingTable() {
+interface SpendingTableProps {
+    onEditDeleteSpending: (isDelete: boolean) => void;
+}
+
+const SpendingTable: React.FC<SpendingTableProps> = ({ onEditDeleteSpending }) => {
     const dispatch = useDispatch();
     const spendings = useSelector((state: RootState) => state.spending.spendings);
 
@@ -17,47 +21,41 @@ export default function SpendingTable() {
 
     useEffect(() => {
         if (data) {
-            const currentMonthSpendings = getCurrentMonthSpendings(data);
-            const sortedSpendings = currentMonthSpendings.sort((a, b) => {
-                const dateA = new Date(a.created_at).getTime();
-                const dateB = new Date(b.created_at).getTime();
-                return dateB - dateA;
-            });
-            dispatch(spendingActions.setSpendings(sortedSpendings));
+            const currentMonthSpendings = getCurrentMonthSpendings(data).sort(
+                (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+            );
+            dispatch(spendingActions.setSpendings(currentMonthSpendings));
         }
     }, [data, dispatch]);
 
-    if (isLoading) {
-        return <div>Loading...</div>;
-    }
+    if (isLoading) return <div>Loading...</div>;
+    if (error) return <div>Error loading data</div>;
 
-    if (error) {
-        return <div>Error loading data</div>;
-    }
+    const headers = ["Who", "Amount", "When", ""];
+
+    const renderRow = (item: SpendingType) => (
+        item.id && (
+            <tr key={item.id}>
+                <SpendingItem
+                    id={item.id}
+                    username={item.username}
+                    amount={item.amount}
+                    created_at={new Date(item.created_at).toLocaleString()}
+                    onEditDelete={onEditDeleteSpending}
+                />
+            </tr>
+        )
+    );
+
 
     return (
-        <table>
-            <thead>
-                <tr>
-                    <th>Who</th>
-                    <th>Amount</th>
-                    <th>When</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                {
-                    spendings.map((item: SpendingType, index: number) => (
-                        <SpendingItem
-                            key={index}
-                            id={item.id}
-                            username={item.username}
-                            amount={item.amount}
-                            created_at={new Date(item.created_at).toLocaleString()}
-                        />
-                    ))
-                }
-            </tbody>
-        </table>
+        <Table<SpendingType>
+            headers={headers}
+            data={spendings}
+            keyExtractor={(item) => item.id || ""}
+            renderRow={renderRow}
+        />
     );
 }
+
+export default SpendingTable;
