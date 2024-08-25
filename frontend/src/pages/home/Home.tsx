@@ -1,16 +1,16 @@
 import React, { useCallback, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../store";
-import { modalActions } from "../store/modal";
-import Modal from "../components/UI/Modal";
-import Balance from "../components/Balance";
-import RealTimeDate from "../components/RealTimeDate";
-import SettingsButton from "../components/Settings/SettingsButton";
-import SettingsForm from "../components/Settings/SettingsForm";
-import SpendingTable from "../components/Spending/SpendingTable";
-import SpendingDeleteDialog from "../components/Spending/SpendingDeleteDialog";
-import SpendingForm from "../components/Spending/SpendingForm";
+import { RootState } from "../../store";
+import { modalActions } from "../../store/modal";
+import Modal from "../../components/UI/modal/Modal";
+import Balance from "../../components/Balance";
+import RealTimeDate from "../../components/RealTimeDate";
+import SettingsButton from "../../components/settings/button/SettingsButton";
+import SettingsForm from "../../components/settings/SettingsForm";
+import SpendingTable from "../../components/spending/table/SpendingTable";
+import SpendingDeleteDialog from "../../components/spending/SpendingDeleteDialog";
+import SpendingForm from "../../components/spending/folder/SpendingForm";
 import "./Home.css";
 
 export default function Home() {

@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Provider } from 'react-redux'
-import Loading from './components/Loading'
+import Loading from './components/loading/Loading'
 import ProtectedRoute from './ProtectedRoute'
 import store from './store'
 import './index.css'
@@ -11,9 +11,9 @@ import './index.css'
 // eslint-disable-next-line react-refresh/only-export-components
 const Root = lazy(() => import('./pages/Root'));
 // eslint-disable-next-line react-refresh/only-export-components
-const Home = lazy(() => import('./pages/Home'));
+const Home = lazy(() => import('./pages/home/Home'));
 // eslint-disable-next-line react-refresh/only-export-components
-const Login = lazy(() => import('./pages/Login'));
+const Login = lazy(() => import('./pages/login/Login'));
 // eslint-disable-next-line react-refresh/only-export-components
 const Register = lazy(() => import('./pages/Register'));
 

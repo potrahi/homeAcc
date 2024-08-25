@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
-import { authActions } from '../store/auth';
-import { loginUser } from '../api/auth';
-import './/Login.css';
+import { authActions } from '../../store/auth';
+import { loginUser } from '../../api/auth';
+import './Login.css';
 
 const Login: React.FC = () => {
     const [username, setUsername] = useState<string>('');

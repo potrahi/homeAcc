@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import gear from '../../assets/gear-icon.svg';
+import gear from '../../../assets/gear-icon.svg';
 import './SettingsButton.css';
 
 interface SettingsButtonProps {

@@ -1,14 +1,14 @@
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { SpendingType } from '../../types/spending';
-import { RootState } from '../../store';
-import { spendingActions } from '../../store/spending';
-import { modalActions } from '../../store/modal';
-import useInput from '../../hooks/useInput';
-import Form from '../UI/Form';
-import { addSpending, updateSpending } from '../../api/spending';
-import { convertToDateTimeLocalString, parseDateString } from '../../utils/date';
+import { SpendingType } from '../../../types/spending';
+import { RootState } from '../../../store';
+import { spendingActions } from '../../../store/spending';
+import { modalActions } from '../../../store/modal';
+import useInput from '../../../hooks/useInput';
+import Form from '../../UI/form/Form';
+import { addSpending, updateSpending } from '../../../api/spending';
+import { convertToDateTimeLocalString, parseDateString } from '../../../utils/date';
 import './SpendingForm.css';
 
 const SpendingForm: React.FC = () => {

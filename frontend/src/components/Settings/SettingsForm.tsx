@@ -7,7 +7,7 @@ import useInput from '../../hooks/useInput';
 import { useMutation } from '@tanstack/react-query';
 import { updateSettings } from '../../api/settings';
 import { useSetting } from '../../hooks/useSettings';
-import Form from '../UI/Form';
+import Form from '../UI/form/Form';
 
 const SettingsForm: React.FC = () => {
     const dispatch = useDispatch();

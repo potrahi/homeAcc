@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { SpendingType } from '../../types/spending';
-import { RootState } from '../../store';
-import { spendingActions } from '../../store/spending';
-import { getCurrentMonthSpendings } from '../../utils/spendings';
-import { useFetchSpendings } from '../../hooks/useFetchSpendings';
-import SpendingItem from './SpendingItem';
-import Table from '../UI/Table';
+import { SpendingType } from '../../../types/spending';
+import { RootState } from '../../../store';
+import { spendingActions } from '../../../store/spending';
+import { getCurrentMonthSpendings } from '../../../utils/spendings';
+import { useFetchSpendings } from '../../../hooks/useFetchSpendings';
+import SpendingItem from '../item/SpendingItem';
+import Table from '../../UI/table/Table';
 import './SpendingTable.css';
 
 interface SpendingTableProps {

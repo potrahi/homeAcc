@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Login from './pages/Login';
+import Login from './pages/login/Login';
 import { RootState } from './store';
 import { authActions } from './store/auth';
 import { getUserIdFromToken, getUsernameFromToken, isTokenValid } from './utils/auth';
