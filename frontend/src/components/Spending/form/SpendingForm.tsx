@@ -6,7 +6,7 @@ import { RootState } from '../../../store';
 import { spendingActions } from '../../../store/spending';
 import { modalActions } from '../../../store/modal';
 import useInput from '../../../hooks/useInput';
-import Form from '../../UI/form/Form';
+import Form from '../../ui/form/Form';
 import { addSpending, updateSpending } from '../../../api/spending';
 import { convertToDateTimeLocalString, parseDateString } from '../../../utils/date';
 import './SpendingForm.css';

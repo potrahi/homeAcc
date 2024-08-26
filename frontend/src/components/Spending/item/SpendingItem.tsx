@@ -2,7 +2,7 @@ import { useDispatch } from "react-redux";
 import { modalActions } from "../../../store/modal";
 import deleteIcon from "../../../assets/delete-icon.svg";
 import editIcon from "../../../assets/edit-icon.svg"
-import IconButton from "../../UI/button/IconButton";
+import IconButton from "../../ui/button/IconButton";
 import "./SpendingItem.css"
 
 interface SpendingItemProps {

@@ -6,7 +6,7 @@ import { spendingActions } from '../../../store/spending';
 import { getCurrentMonthSpendings } from '../../../utils/spendings';
 import { useFetchSpendings } from '../../../hooks/useFetchSpendings';
 import SpendingItem from '../item/SpendingItem';
-import Table from '../../UI/table/Table';
+import Table from '../../ui/table/Table';
 import './SpendingTable.css';
 
 interface SpendingTableProps {

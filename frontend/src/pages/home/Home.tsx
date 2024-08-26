@@ -3,14 +3,14 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { modalActions } from "../../store/modal";
-import Modal from "../../components/UI/modal/Modal";
+import Modal from "../../components/ui/modal/Modal";
 import Balance from "../../components/Balance";
 import RealTimeDate from "../../components/RealTimeDate";
 import SettingsButton from "../../components/settings/button/SettingsButton";
 import SettingsForm from "../../components/settings/SettingsForm";
 import SpendingTable from "../../components/spending/table/SpendingTable";
 import SpendingDeleteDialog from "../../components/spending/SpendingDeleteDialog";
-import SpendingForm from "../../components/spending/folder/SpendingForm";
+import SpendingForm from "../../components/spending/form/SpendingForm";
 import "./Home.css";
 
 export default function Home() {

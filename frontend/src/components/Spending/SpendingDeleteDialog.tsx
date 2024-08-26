@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { modalActions } from "../../store/modal";
-import DeleteDialog from "../UI/DeleteDialog";
+import DeleteDialog from "../ui/DeleteDialog";
 import { deleteSpending } from "../../api/spending";
 
 const SpendingDeleteDialog: React.FC = () => {
